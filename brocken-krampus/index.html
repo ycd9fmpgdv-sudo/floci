@@ -1403,6 +1403,7 @@ var Krampus = (function () {
     toneCol.push('rgb(' + Math.round(lerp(A[0], B[0], f)) + ',' + Math.round(lerp(A[1], B[1], f)) + ',' + Math.round(lerp(A[2], B[2], f)) + ')');
   }
   var WIDTHS = [0.75, 1.3, 2.2];
+  var LITE = (window.matchMedia && window.matchMedia('(pointer: coarse)').matches) || window.innerWidth < 760;
   var layers = null, headStart = 0;
 
   function lightF(cx, hw, top) {
@@ -1418,7 +1419,8 @@ var Krampus = (function () {
     var x0 = o.box[0], y0 = o.box[1], x1 = o.box[2], y1 = o.box[3];
     var cx = (x0 + x1) / 2, cy = (y0 + y1) / 2;
     var layer = { type: 'fur', path: path, fill: o.fill === undefined ? '#080504' : o.fill, buckets: {}, detail: {} };
-    var total = o.n + (o.detail || 0), made = 0, guard = 0;
+    var nMain = LITE ? Math.round(o.n * 0.55) : o.n, nDet = LITE ? Math.round((o.detail || 0) * 0.4) : (o.detail || 0);
+    var total = nMain + nDet, made = 0, guard = 0;
     var edgeP = o.edge === undefined ? 0.5 : o.edge;
     while (made < total && guard < total * 60) {
       guard++;
@@ -1428,12 +1430,12 @@ var Krampus = (function () {
         var dx = cx - x, dy = cy - y, d = Math.hypot(dx, dy) || 1;
         if (R() < edgeP && inP(path, x + dx / d * 17, y + dy / d * 17)) { edge = true; } else { continue; }
       }
-      var isDetail = made >= o.n;
+      var isDetail = made >= nMain;
       var ang = o.dir(x, y) + (o.wave === undefined ? 1 : o.wave) * (0.32 * Math.sin(x * 0.031 + y * 0.017) + 0.22 * Math.sin(y * 0.047 - x * 0.023));
       if (edge) { ang = blendAngle(ang, Math.atan2(y - cy, x - cx), 0.4); }
       var L = rnd(o.len[0], o.len[1]) * (edge ? 1.12 : 1) * (isDetail ? 0.8 : 1);
       if (o.lenMod) { L *= o.lenMod(x, y); }
-      var nLock = 4 + Math.floor(R() * 7);
+      var nLock = LITE ? 5 + Math.floor(R() * 6) : 4 + Math.floor(R() * 7);
       var baseTone = rnd(o.tone[0], o.tone[1]) + (o.light ? o.light(x, y) : 0);
       var curl = rnd(-0.5, 0.5) * (o.curl === undefined ? 0.35 : o.curl);
       var ex = x + Math.cos(ang) * L, ey = y + Math.sin(ang) * L;
@@ -2814,7 +2816,7 @@ if ('IntersectionObserver' in window) {
         var cv = en.target; enqueue(function () { render(cv, cv.getAttribute('data-scene')); cv._queued = false; });
       }
     });
-  }, { rootMargin: '900px 0px' });
+  }, { rootMargin: (SMALL ? '350px' : '900px') + ' 0px' });
   document.querySelectorAll('canvas[data-scene]').forEach(function (cv) { canvasIO.observe(cv); });
   var releaseIO = new IntersectionObserver(function (entries) {
     entries.forEach(function (en) {
@@ -2830,7 +2832,7 @@ if ('IntersectionObserver' in window) {
       t._queued = true;
       enqueue(function () { if (t === (Viewer && Viewer.root)) { Viewer.build(); t._done = true; } else { buildDivider(t, dividers.indexOf(t)); } t._queued = false; });
     });
-  }, { rootMargin: '700px 0px' });
+  }, { rootMargin: (SMALL ? '300px' : '700px') + ' 0px' });
   dividers.forEach(function (d) { extraIO.observe(d); });
 
   if (!REDUCED) {
