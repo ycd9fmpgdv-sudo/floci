@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"> <!--repo-only-->
 <title>Die Zwei vom Brocken</title>
 <meta name="claude:viewport-fit-sides" content="cover">
-<meta name="description" content="Die vergessene Legende des Harzes: der Schellbock, die Rote Walli und das Geheimnis der Reisiggurke.">
+<meta name="description" content="Die vergessene Legende des Harzes: der Schellbock, die Hexe Scharlotta, Forstmeister Claas und das Geheimnis der Reisiggurke.">
 <meta name="theme-color" content="#060607">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -114,10 +114,11 @@ button { font: inherit; color: inherit; }
   opacity: 0; pointer-events: none; transition: opacity .45s var(--ease);
 }
 .menu.open { opacity: 1; pointer-events: auto; }
-.menu ol { list-style: none; margin: 0 auto; padding: 0; display: grid; gap: 1.4rem; width: min(100%, 420px); }
+.menu { overflow-y: auto; justify-content: flex-start; }
+.menu ol { list-style: none; margin: auto; padding: 0; display: grid; gap: 1rem; width: min(100%, 440px); }
 .menu a { display: grid; grid-template-columns: 3rem 1fr; align-items: baseline; text-decoration: none; }
 .menu .num { font-family: var(--f-old); font-style: italic; color: var(--blood); font-size: 1.2rem; }
-.menu .t { font-family: var(--f-head); font-size: 2rem; color: var(--snow); line-height: 1.1; }
+.menu .t { font-family: var(--f-head); font-size: clamp(1.4rem, 5vw, 1.9rem); color: var(--snow); line-height: 1.1; }
 .menu-close { position: absolute; top: calc(env(safe-area-inset-top, 0px) + .8rem); right: var(--gutter-r); }
 
 /* ---------- Hero ---------- */
@@ -349,6 +350,9 @@ main, footer.site { overflow-x: clip; }
   .menu-btn { display: inline-flex; }
   .sound-btn { margin-left: auto; }
 }
+.nav { display: none !important; }
+.menu-btn { display: inline-flex; }
+.sound-btn { margin-left: auto; }
 .hero-copy { pointer-events: none; }
 .hero-copy > * { pointer-events: auto; }
 .hero h1 .main { font-size: clamp(2.8rem, 12vw, 10rem); }
@@ -499,6 +503,21 @@ main, footer.site { overflow-x: clip; }
 .share-wa:hover { background: #24834a; border-color: #3fc06e; }
 .share-wa svg { width: 18px; height: 18px; }
 .share-url { margin: 0; font-family: var(--f-type); font-size: .82rem; color: var(--ash); overflow-wrap: anywhere; user-select: all; }
+
+/* ---------- forester, chapter II ---------- */
+.cta-berg { margin-top: 0; background: rgba(43,63,21,.45); border-color: rgba(127,174,69,.6); font-size: .95rem; padding: .75rem 1.4rem; }
+.cta-berg:hover { background: #3d5a1e; border-color: #7fae45; }
+.berg-3d { max-width: 1180px; margin: 0 auto; }
+.berg-legend { display: flex; flex-wrap: wrap; justify-content: center; gap: .4rem 1.2rem; align-items: center; margin: 1.2rem 0 0; font-family: var(--f-old); font-style: italic; color: var(--ash); }
+.berg-legend .dot { display: inline-block; width: .8rem; height: .8rem; border-radius: 50%; margin-right: .35rem; vertical-align: -.05em; border: 1px solid var(--snow); }
+.dot.red { background: #a11d1d; } .dot.green { background: #557a2a; } .dot.ochre { background: #8a7428; }
+#map .claas-pin circle { fill: #8a7428; }
+#map .claas-pin .ring { stroke: #c9a940; fill: none; }
+.attempts { list-style: none; counter-reset: att; margin: 0; padding: 0; display: grid; gap: .8rem; }
+.attempts li { counter-increment: att; display: grid; grid-template-columns: 5.2rem 1fr; gap: 1rem; align-items: baseline; padding: .9rem 1rem; background: linear-gradient(90deg, rgba(138,116,40,.22), rgba(138,116,40,0)); border-left: 2px solid #8a7428; }
+.attempts li::before { content: "Versuch " counter(att); font-family: var(--f-head); color: #c9a940; font-size: .9rem; letter-spacing: .06em; }
+.attempts b { font-family: var(--f-head); font-weight: 400; color: var(--bone); font-size: 1.08rem; }
+@media (max-width: 520px) { .attempts li, .rules li { grid-template-columns: 1fr; gap: .2rem; } }
 </style>
 </head> <!--repo-only-->
 <body> <!--repo-only-->
@@ -531,8 +550,10 @@ main, footer.site { overflow-x: clip; }
   <a class="brand" href="#start" data-jump="start">Die Zwei <b>vom</b> Brocken</a>
   <nav class="nav" aria-label="Kapitel">
     <a href="#zwei" data-jump="zwei">Die Zwei</a>
+    <a href="#berg" data-jump="berg">Der Berg</a>
     <a href="#monster" data-jump="monster">Das Monster</a>
     <a href="#hexe" data-jump="hexe">Die Hexe</a>
+    <a href="#forstmeister" data-jump="forstmeister">Der Forstmeister</a>
     <a href="#gurke" data-jump="gurke">Die Gurke</a>
     <a href="#legende" data-jump="legende">Die Legende</a>
     <a href="#begegnungen" data-jump="begegnungen">Begegnungen</a>
@@ -554,13 +575,15 @@ main, footer.site { overflow-x: clip; }
   <ol>
     <li><a href="#start" data-jump="start"><span class="num">·</span><span class="t">Die Begegnung</span></a></li>
     <li><a href="#zwei" data-jump="zwei"><span class="num">I</span><span class="t">Die Zwei vom Brocken</span></a></li>
-    <li><a href="#monster" data-jump="monster"><span class="num">II</span><span class="t">Das Monster</span></a></li>
-    <li><a href="#hexe" data-jump="hexe"><span class="num">III</span><span class="t">Die Hexe</span></a></li>
-    <li><a href="#gurke" data-jump="gurke"><span class="num">IV</span><span class="t">Die Reisiggurke</span></a></li>
-    <li><a href="#legende" data-jump="legende"><span class="num">V</span><span class="t">Die gemeinsame Legende</span></a></li>
-    <li><a href="#begegnungen" data-jump="begegnungen"><span class="num">VI</span><span class="t">Begegnungen</span></a></li>
-    <li><a href="#steckbrief" data-jump="steckbrief"><span class="num">VII</span><span class="t">Steckbriefe</span></a></li>
-    <li><a href="#warnung" data-jump="warnung"><span class="num">VIII</span><span class="t">Die Warnung</span></a></li>
+    <li><a href="#berg" data-jump="berg"><span class="num">II</span><span class="t">Der Berg in 3D</span></a></li>
+    <li><a href="#monster" data-jump="monster"><span class="num">III</span><span class="t">Das Monster</span></a></li>
+    <li><a href="#hexe" data-jump="hexe"><span class="num">IV</span><span class="t">Die Hexe</span></a></li>
+    <li><a href="#forstmeister" data-jump="forstmeister"><span class="num">V</span><span class="t">Der Forstmeister</span></a></li>
+    <li><a href="#gurke" data-jump="gurke"><span class="num">VI</span><span class="t">Die Reisiggurke</span></a></li>
+    <li><a href="#legende" data-jump="legende"><span class="num">VII</span><span class="t">Die gemeinsame Legende</span></a></li>
+    <li><a href="#begegnungen" data-jump="begegnungen"><span class="num">VIII</span><span class="t">Begegnungen</span></a></li>
+    <li><a href="#steckbrief" data-jump="steckbrief"><span class="num">IX</span><span class="t">Steckbriefe</span></a></li>
+    <li><a href="#warnung" data-jump="warnung"><span class="num">X</span><span class="t">Die Warnung</span></a></li>
   </ol>
 </div>
 
@@ -573,9 +596,10 @@ main, footer.site { overflow-x: clip; }
   <div class="hero-copy">
     <p class="eyebrow">Eine Sage aus dem Harz · 1141 Meter über dem Meer</p>
     <h1><span class="der">Die Zwei</span><span class="main">vom Brocken</span></h1>
-    <p class="tagline">Manche Legenden sollte man besser nicht suchen.<br><span class="duo-line">Der Schellbock. Die Rote Walli. Und eine Gurke.</span></p>
+    <p class="tagline">Manche Legenden sollte man besser nicht suchen.<br><span class="duo-line">Der Schellbock. Die Hexe Scharlotta. Und eine Gurke.</span></p>
     <a class="cta" href="#zwei" data-jump="zwei">Die Legende entdecken
       <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M7 1v12M2 8l5 5 5-5"/></svg></a>
+    <a class="cta cta-berg" href="#berg" data-jump="berg">Den Berg in 3D erkunden</a>
     <span class="scroll-hint">Ton an für das volle Erlebnis</span>
   </div>
 </section>
@@ -592,8 +616,9 @@ main, footer.site { overflow-x: clip; }
   </div>
 
   <div class="prose">
-    <p class="lead reveal">Früher erzählte man im Oberharz von einem Krampus, der im Nebel des Brockens umgeht. Heute erzählt man von zweien. Von einem gehörnten Wesen, das die Alten den Schellbock nennen, und von einer Frau mit Haaren so rot wie das Warnlicht auf dem Sendeturm, die man nur die Rote Walli nennt.</p>
+    <p class="lead reveal">Früher erzählte man im Oberharz von einem Krampus, der im Nebel des Brockens umgeht. Heute erzählt man von zweien. Von einem gehörnten Wesen, das die Alten den Schellbock nennen, und von einer Frau mit Haaren so rot wie das Warnlicht auf dem Sendeturm, die sich Scharlotta nennt.</p>
     <p class="reveal">Wo der eine auftaucht, ist die andere nicht weit. Er läutet, sie lacht. Er trägt die Ketten, sie trägt die Verantwortung, behauptet sie jedenfalls. Und zwischen ihnen, immer, irgendwo: eine grüne, warzige, mit Birkenreisig umwickelte Gurke. Wie es dazu kam, ist eines der größten Rätsel des Harzes. Diese Seite versucht, es zu lösen. Sie wird scheitern.</p>
+    <p class="reveal">Und dann ist da noch einer, der es genau wissen will: Forstmeister Claas aus Schierke. Er hat sich vorgenommen, den Schellbock zu fangen. Er arbeitet seit Jahren daran. Scharlotta findet das ganz reizend.</p>
   </div>
 
   <div class="duo reveal">
@@ -609,9 +634,9 @@ main, footer.site { overflow-x: clip; }
       <span class="duo-text">Die Reisiggurke. Sauer. Heilig. Angeleckt.</span>
     </a>
     <a class="duo-card" href="#hexe" data-jump="hexe">
-      <div class="ph-wrap"><canvas data-scene="witch" style="--ar: 4/5" role="img" aria-label="Die Rote Walli: rotes Haar, Hexenhut, Gesicht im Schatten"></canvas></div>
+      <div class="ph-wrap"><canvas data-scene="witch" style="--ar: 4/5" role="img" aria-label="Scharlotta: rotes Haar, Hexenhut, Gesicht im Schatten"></canvas></div>
       <span class="duo-kicker">Die Hexe</span>
-      <span class="duo-name">Die Rote Walli</span>
+      <span class="duo-name">Scharlotta</span>
       <span class="duo-text">Feuerrot, gut gelaunt, unberechenbar. Hat den Nebel nach eigener Aussage „nur ausgeliehen“.</span>
     </a>
   </div>
@@ -619,10 +644,49 @@ main, footer.site { overflow-x: clip; }
 
 <div class="divider" aria-hidden="true"><canvas data-forest="0" data-depth="-0.06"></canvas><canvas data-forest="1" data-depth="-0.12"></canvas><canvas data-forest="2" data-depth="-0.22"></canvas><div class="fogline"></div></div>
 
-<!-- ============ II · DAS MONSTER ============ -->
-<section class="chapter wrap" id="monster" aria-labelledby="h-monster">
+<!-- ============ II · DER BERG ============ -->
+<section class="chapter wrap" id="berg" aria-labelledby="h-berg">
   <div class="chapter-head reveal">
     <span class="chapter-num">Kapitel<span class="roman" data-par>II</span></span>
+    <h2 id="h-berg">Der Berg in 3D</h2>
+    <p class="sub">Wo die Zwei ihr Unwesen treiben. Und wo Forstmeister Claas seine Fallen stellt.</p>
+    <svg class="rule" viewBox="0 0 120 14" aria-hidden="true"><path d="M0 7h48M72 7h48" stroke="currentColor" stroke-width="1"/><path d="M60 1l6 6-6 6-6-6z" fill="currentColor"/></svg>
+  </div>
+  <div class="berg-3d">
+    <figure class="m3d-wrap reveal">
+      <div class="m3d" id="m3d">
+        <canvas id="m3dCanvas" role="img" aria-label="3D-Modell des Brockens mit den Orten der Sichtungen"></canvas>
+        <div class="m3d-loading" id="m3dLoading">Der Berg wird aus dem Nebel geholt …</div>
+        <button class="icon-btn m3d-activate" id="m3dActivate" type="button" hidden>Berg erkunden</button>
+        <div class="m3d-info" id="m3dInfo" hidden>
+          <span class="tafel" id="m3dKicker"></span>
+          <span class="ptitle" id="m3dTitle"></span>
+          <p class="pnote" id="m3dText"></p>
+          <div class="m3d-info-btns"><button class="icon-btn" id="m3dAkte" type="button">Akte lesen</button><button class="icon-btn" id="m3dClose" type="button">Schließen</button></div>
+        </div>
+      </div>
+      <figcaption class="viewer-bar">
+        <span class="tafel">DER BERG IN 3D</span>
+        <div class="viewer-btns">
+          <button class="icon-btn" id="m3dTour" type="button" aria-pressed="true">Rundflug</button>
+          <button class="icon-btn" id="m3dFog" type="button" aria-pressed="true">Nebel</button>
+          <button class="icon-btn" id="m3dSummit" type="button">Zum Gipfel</button>
+          <button class="icon-btn" id="m3dDone" type="button" hidden>Fertig</button>
+        </div>
+      </figcaption>
+      <p class="m3d-help">Ziehen zum Drehen, Mausrad oder zwei Finger zum Zoomen, rechte Maustaste zum Verschieben. Tippe auf eine Marke, auf den Schellbock an der Teufelskanzel, auf Scharlotta über dem Gipfel oder auf Forstmeister Claas an seinem Hochsitz. Im Brockengarten liegt außerdem etwas Grünes im Schnee.</p>
+    </figure>
+
+  </div>
+  <p class="berg-legend reveal"><span class="dot red"></span>Der Schellbock allein <span class="dot green"></span>Beide zusammen <span class="dot ochre"></span>Forstmeister Claas</p>
+</section>
+
+<div class="divider" aria-hidden="true"><canvas data-forest="0" data-depth="-0.06"></canvas><canvas data-forest="1" data-depth="-0.12"></canvas><canvas data-forest="2" data-depth="-0.22"></canvas><div class="fogline"></div></div>
+
+<!-- ============ III · DAS MONSTER ============ -->
+<section class="chapter wrap" id="monster" aria-labelledby="h-monster">
+  <div class="chapter-head reveal">
+    <span class="chapter-num">Kapitel<span class="roman" data-par>III</span></span>
     <h2 id="h-monster">Das Monster</h2>
     <p class="sub">Wer der Schellbock wirklich ist, und warum man ihn so lange für einen Krampus hielt</p>
     <svg class="rule" viewBox="0 0 120 14" aria-hidden="true"><path d="M0 7h48M72 7h48" stroke="currentColor" stroke-width="1"/><path d="M60 1l6 6-6 6-6-6z" fill="currentColor"/></svg>
@@ -642,6 +706,7 @@ main, footer.site { overflow-x: clip; }
       <li><b>Er ist der Nebel.</b> Er kann so still im Nebel stehen, dass man ihn erst bemerkt, wenn der Nebel atmet.</li>
       <li><b>Er riecht Lügen.</b> Auf drei Kilometer, gegen den Wind. Wer im Advent lügt, findet eine Birkenrute vor der Tür.</li>
       <li><b>Er hinterlässt Spuren, wenn er will.</b> Links ein Huf, rechts eine Klaue. Meistens will er nicht.</li>
+      <li><b>Er wird gejagt.</b> Seit Jahren, von einem einzigen Mann mit Netz, Laterne und Maßband. Er findet das, soweit man das sagen kann, unterhaltsam.</li>
       <li><b>Er hat eine Schwäche für Saures.</b> Diese Fähigkeit wurde erst im 19. Jahrhundert dokumentiert. Dazu später mehr.</li>
     </ul>
 
@@ -716,7 +781,7 @@ main, footer.site { overflow-x: clip; }
     <div class="plate-row two">
       <figure class="plate reveal">
         <div class="frame" tabindex="0" role="button" aria-label="Tafel V vergrößern"><canvas data-scene="trees" style="--ar: 3/2" role="img" aria-label="Infrarotbild einer Wildkamera: die gehörnte Gestalt zwischen kahlen Fichten, die Augen leuchten weiß."></canvas></div>
-        <figcaption><span class="tafel">TAFEL V</span><span class="ptitle">Zwischen den Fichten</span><span class="pnote">Wildkamera, Revier Schierke, 6. Dezember 2011, 03:12 Uhr. Das nächste Bild der Serie zeigt nur noch eine Gurke im Schnee.</span></figcaption>
+        <figcaption><span class="tafel">TAFEL V</span><span class="ptitle">Zwischen den Fichten</span><span class="pnote">Wildkamera von Forstmeister Claas, Revier Schierke, 6. Dezember 2011, 03:12 Uhr. Das nächste Bild der Serie zeigt nur noch eine Gurke im Schnee.</span></figcaption>
       </figure>
       <figure class="plate reveal">
         <div class="frame" tabindex="0" role="button" aria-label="Tafel VI vergrößern"><canvas data-scene="summit" style="--ar: 3/2" role="img" aria-label="Altes Negativ: die Gestalt steht auf den Granitklippen des Gipfels im dichten Nebel."></canvas></div>
@@ -731,23 +796,24 @@ main, footer.site { overflow-x: clip; }
 <!-- ============ III · DIE HEXE ============ -->
 <section class="chapter wrap" id="hexe" aria-labelledby="h-hexe">
   <div class="chapter-head reveal">
-    <span class="chapter-num">Kapitel<span class="roman" data-par>III</span></span>
+    <span class="chapter-num">Kapitel<span class="roman" data-par>IV</span></span>
     <h2 id="h-hexe">Die Hexe</h2>
-    <p class="sub">Die Rote Walli. Herkunft unklar, Absichten noch unklarer.</p>
+    <p class="sub">Scharlotta. Herkunft unklar, Absichten noch unklarer.</p>
     <svg class="rule" viewBox="0 0 120 14" aria-hidden="true"><path d="M0 7h48M72 7h48" stroke="currentColor" stroke-width="1"/><path d="M60 1l6 6-6 6-6-6z" fill="currentColor"/></svg>
   </div>
 
   <div class="plate-row feature witch-row">
     <figure class="plate reveal">
-      <div class="frame tilt" tabindex="0" role="button" aria-label="Die Rote Walli">
-        <div class="ph-wrap"><canvas data-scene="witch" style="--ar: 4/5" role="img" aria-label="Die Rote Walli vor dem Mond, mit rotem Zopf und Hexenhut"></canvas></div>
+      <div class="frame tilt" tabindex="0" role="button" aria-label="Scharlotta">
+        <div class="ph-wrap"><canvas data-scene="witch" style="--ar: 4/5" role="img" aria-label="Scharlotta vor dem Mond, mit rotem Zopf und Hexenhut"></canvas></div>
       </div>
-      <figcaption><span class="tafel">TAFEL VII</span><span class="ptitle">Die Rote Walli</span><span class="pnote">Nachgezeichnet nach Zeugenaussagen: roter Zopf, silberne Ohrringe, Wanderjacke mit pinkem Kragen. Ihr Gesicht hat noch niemand scharf erwischt. Sie lacht immer im falschen Moment.</span></figcaption>
+      <figcaption><span class="tafel">TAFEL VII</span><span class="ptitle">Scharlotta</span><span class="pnote">Nachgezeichnet nach Zeugenaussagen: roter Zopf, silberne Ohrringe, Wanderjacke mit pinkem Kragen. Ihr Gesicht hat noch niemand scharf erwischt. Sie lacht immer im falschen Moment.</span></figcaption>
     </figure>
     <div class="prose reveal">
       <h3 style="margin-top:0"><small>Ihre Herkunft</small>Mit der letzten Bahn gekommen</h3>
-      <p>Die Rote Walli kam nicht auf dem Besen, sondern mit der Brockenbahn. Ohne Fahrkarte. Der Schaffner, der sie kontrollieren wollte, hat danach drei Wochen lang nur noch rückwärts gesprochen.</p>
+      <p>Scharlotta kam nicht auf dem Besen, sondern mit der Brockenbahn. Ohne Fahrkarte. Der Schaffner, der sie kontrollieren wollte, hat danach drei Wochen lang nur noch rückwärts gesprochen.</p>
       <p>Wann das war, ist umstritten. Sie selbst sagt „neulich“. Sie sieht aus wie Anfang zwanzig, hat Sommersprossen und einen Zopf, der im Nebel leuchtet. Das Kirchenbuch von Elend erwähnt allerdings schon 1741 „ein Weibsbild mit rothem Haar“, das am Brocken einem Köhler „eine saure Frucht“ angeboten habe. Auf dem Brocken ist Zeit ohnehin eher ein Vorschlag.</p>
+      <p>Ihren Namen, sagt sie, habe sie vom Scharlachrot ihrer Haare. Die Alten sagen, es sei umgekehrt gewesen.</p>
       <p>Manche sagen, sie sei eine der Hexen aus der Walpurgisnacht, die nach dem Tanz auf dem Hexenaltar eingeschlafen ist und den Rückflug verpasst hat. Sie selbst sagt, sie sei geblieben, „weil die Aussicht gut ist, wenn man sie lässt“.</p>
     </div>
   </div>
@@ -759,13 +825,63 @@ main, footer.site { overflow-x: clip; }
       <li><b>Besenflug.</b> Ihr Besen ist aus Birkenreisig gebunden. Wer genau hinsieht, erkennt darin dieselben Zweige wie in der Rute des Schellbocks. Wer genauer hinsieht, wird gebeten, das zu lassen.</li>
       <li><b>Sie spricht mit Raben.</b> Und mit Borkenkäfern. Die toten Fichten im Harz seien „ein Missverständnis gewesen“, sagt sie.</li>
       <li><b>Sie verlegt Wege.</b> Wanderer, die ihr unhöflich begegnen, laufen stundenlang im Kreis. Alle Kreise enden am Gipfelstein.</li>
+      <li><b>Sie hat einen Lieblingsförster.</b> Forstmeister Claas. Sie hilft ihm gern beim Aufstellen seiner Fallen und testet sie danach persönlich.</li>
       <li><b>Sie dreht sich um.</b> Als Einzige. Wenn im Nebel die Schellen läuten, dreht sie sich um, winkt und sagt: „Na, du schon wieder.“</li>
     </ul>
 
     <h3 class="reveal"><small>Ihr Wesen</small>Nicht böse. Nur sehr entschlossen.</h3>
     <div class="reveal">
-      <p>Die Rote Walli ist selbstbewusst, schnell, laut und vollkommen unberechenbar. Sie ist nicht böse. Sie ist nur sehr, sehr schlecht darin, nicht zu tun, was ihr gerade einfällt. Und ihr fällt ständig etwas ein.</p>
+      <p>Scharlotta ist selbstbewusst, schnell, laut und vollkommen unberechenbar. Sie ist nicht böse. Sie ist nur sehr, sehr schlecht darin, nicht zu tun, was ihr gerade einfällt. Und ihr fällt ständig etwas ein.</p>
       <p>Sie ist der einzige Mensch, wenn sie denn einer ist, vor dem der Schellbock einen Schritt zurückweicht. Nicht aus Angst, sagen die Alten. Aus Erfahrung.</p>
+    </div>
+  </div>
+</section>
+
+<div class="divider" aria-hidden="true"><canvas data-forest="0" data-depth="-0.06"></canvas><canvas data-forest="1" data-depth="-0.12"></canvas><canvas data-forest="2" data-depth="-0.22"></canvas><div class="fogline"></div></div>
+
+<!-- ============ V · DER FORSTMEISTER ============ -->
+<section class="chapter wrap" id="forstmeister" aria-labelledby="h-forstmeister">
+  <div class="chapter-head reveal">
+    <span class="chapter-num">Kapitel<span class="roman" data-par>V</span></span>
+    <h2 id="h-forstmeister">Der Forstmeister</h2>
+    <p class="sub">Claas aus Schierke. Der einzige Mensch, der den Schellbock fangen will. Jeden Winter aufs Neue.</p>
+    <svg class="rule" viewBox="0 0 120 14" aria-hidden="true"><path d="M0 7h48M72 7h48" stroke="currentColor" stroke-width="1"/><path d="M60 1l6 6-6 6-6-6z" fill="currentColor"/></svg>
+  </div>
+
+  <div class="plate-row feature witch-row">
+    <figure class="plate reveal">
+      <div class="frame tilt" tabindex="0" role="button" aria-label="Tafel VIII vergrößern"><canvas data-scene="forester" style="--ar: 4/5" role="img" aria-label="Forstmeister Claas mit Försterhut, Laterne und Netz im Nebel. Hinter ihm, unbemerkt, glühen die Augen des Schellbocks."></canvas></div>
+      <figcaption><span class="tafel">TAFEL VIII</span><span class="ptitle">Der Forstmeister</span><span class="pnote">Aufnahme vom Ansitz am Eckerloch, Advent 2019. Claas schaut nach rechts. Er hätte nach links schauen sollen.</span></figcaption>
+    </figure>
+    <div class="prose reveal">
+      <h3 style="margin-top:0"><small>Wer er ist</small>Ein Mann mit Maßband</h3>
+      <p>Forstmeister Claas kennt jeden Stamm zwischen Eckerloch und Hohnewald, jede Wildspur und jeden Wanderer, der den Müll nicht wieder mitnimmt. Er glaubt nicht an Sagen. Er glaubt an Spuren, Protokolle und gut geölte Fallen.</p>
+      <p>Seit dem Winter, in dem er im Eckerloch eine Kratzspur in zweieinhalb Metern Höhe vermessen hat, hat er ein Ziel: Er will den Schellbock fangen. Nicht erschießen, betont er. Fangen. Vermessen. Beringen. Und dann, das sagt er nur nach dem zweiten Kräuterschnaps, einmal in Ruhe fragen, was das eigentlich alles soll.</p>
+    </div>
+  </div>
+
+  <div class="prose">
+    <h3 class="reveal"><small>Seine Fangversuche</small>Eine Auswahl aus 47 Protokollen</h3>
+    <ol class="attempts reveal">
+      <li><b>Die Glockenfalle.</b> Eine Kuhglocke als Lockruf, darunter ein Netz. Am Morgen war das Netz leer und ordentlich zusammengelegt. Seine eigenen drei Glocken waren weg. Im Schnee: Huf, Klaue und ein Wanderschuh, Größe 39.</li>
+      <li><b>Die Wildkamera.</b> Am 6. Dezember 2011 löste sie um 03:12 Uhr aus. Das Bild ist im Harz inzwischen berühmt. Die Kamera nicht: Sie hing am Morgen nicht mehr am Baum. Das letzte Bild der Serie zeigt eine Gurke im Schnee.</li>
+      <li><b>Der Gurkenköder.</b> Claas hatte herausgefunden, dass der Schellbock eine Schwäche für Saures hat, und stellte eine Kastenfalle mit fünf Litern sauren Gurken auf. Am Morgen war die Falle zu. Darin saß, sehr zufrieden und mit leerem Glas: Scharlotta. „Ich wollte nur testen, ob sie hält“, sagte sie. Sie hielt nicht. Die Tür war von innen nie verriegelt gewesen.</li>
+      <li><b>Die Verkleidung.</b> Im Advent 2018 legte sich Claas ein Krampusfell um und hängte sich Schellen um, um sich unauffällig zu nähern. Nach zwanzig Minuten am Hirtenstieg las Scharlotta ihn auf, schenkte ihm aus seiner eigenen Thermoskanne ein und sagte: „Lass das. Das letzte Mal, als das einer gemacht hat, ist es nicht gut ausgegangen.“</li>
+      <li><b>Das Halsband.</b> Seine größte Leistung: Im Nebel gelang es ihm, dem Schellbock ein GPS-Halsband umzulegen. Es sendete drei Wochen lang. Die aufgezeichnete Route ergab, auf der Karte nachgezeichnet, eine sehr große und sehr deutliche Gurke.</li>
+    </ol>
+
+    <blockquote class="pull reveal">„Ich krieg dich noch.“<cite>Forstmeister Claas, jedes Jahr am 6. Dezember vom Gipfel ins Tal gerufen. Das Echo antwortet mit Glocken.</cite></blockquote>
+
+    <h3 class="reveal"><small>Warum er nicht aufgibt</small>Ein Protokoll von 1958</h3>
+    <div class="reveal">
+      <p>Claas' Großvater war Forstgehilfe im Revier Schierke. Im Dezember 1958 hörte er im Eckerloch die Glocken und schrieb ein Protokoll darüber. Der damalige Revierförster sagte, das sei ein Hirsch gewesen, und zeichnete es nie ab. Das Blatt hängt heute gerahmt in der Försterei. Claas will es eines Tages abzeichnen. Mit dem Vermerk: <em>Bestätigt.</em></p>
+    </div>
+
+    <h3 class="reveal"><small>Was die Zwei von ihm halten</small>Ein Wettstreit, den alle kennen</h3>
+    <div class="reveal">
+      <p>Der Schellbock duldet ihn. Manchmal, wenn Claas auf dem Hochsitz eingeschlafen ist, steht er stundenlang darunter und sieht ihm beim Schnarchen zu. Scharlotta dagegen mag ihn, was für Claas deutlich beunruhigender ist. Sie hilft ihm beim Fallenstellen, korrigiert seine Karten und füllt seine Thermoskanne heimlich mit Gurkenwasser.</p>
+      <p>Jedes Jahr an Heiligabend steht vor der Försterei ein Glas saure Gurken mit roter Schleife. Claas hat noch keines geöffnet. Im Keller stehen inzwischen vierzehn. Er sagt, er hebe sie als Beweismittel auf. Wer ihn kennt, glaubt, er hebe sie für den Tag auf, an dem er sie endlich erwischt.</p>
+      <p>Im Harz kennt jeder diesen Wettstreit. Nur Claas hält ihn für geheim.</p>
     </div>
   </div>
 </section>
@@ -775,7 +891,7 @@ main, footer.site { overflow-x: clip; }
 <!-- ============ IV · DIE REISIGGURKE ============ -->
 <section class="chapter wrap" id="gurke" aria-labelledby="h-gurke">
   <div class="chapter-head reveal">
-    <span class="chapter-num">Kapitel<span class="roman" data-par>IV</span></span>
+    <span class="chapter-num">Kapitel<span class="roman" data-par>VI</span></span>
     <h2 id="h-gurke">Das Geheimnis der Reisiggurke</h2>
     <p class="sub">Ein Gemüse, das man besser in Ruhe lässt</p>
     <svg class="rule" viewBox="0 0 120 14" aria-hidden="true"><path d="M0 7h48M72 7h48" stroke="currentColor" stroke-width="1"/><path d="M60 1l6 6-6 6-6-6z" fill="currentColor"/></svg>
@@ -813,7 +929,7 @@ main, footer.site { overflow-x: clip; }
 
     <h3 class="reveal"><small>Was die Hexe tat</small>Sie hat probiert</h3>
     <div class="reveal">
-      <p>Über hundert Jahre lag die Reisiggurke unbeachtet in einer Ecke des Brockengartens. Bis an einem der seltenen klaren Mittage die Rote Walli vorbeikam, hungrig, wie sie später zu Protokoll gab, und in einer Laune, die sie selbst als „experimentell“ beschreibt.</p>
+      <p>Über hundert Jahre lag die Reisiggurke unbeachtet in einer Ecke des Brockengartens. Bis an einem der seltenen klaren Mittage Scharlotta vorbeikam, hungrig, wie sie später zu Protokoll gab, und in einer Laune, die sie selbst als „experimentell“ beschreibt.</p>
       <p>Sie hob die Gurke auf, betrachtete sie von allen Seiten, roch daran. Und dann tat sie, was in der ganzen Geschichte des Harzes niemand gewagt hatte: Sie streckte die Zunge heraus und leckte einmal, gründlich und mit der Miene eines Menschen, der mit allen Folgen bereits Frieden geschlossen hat, an der Reisiggurke.</p>
       <p>Es gibt eine alte Regel, die bis dahin niemand ernst genommen hatte, weil niemand sie je auf die Probe gestellt hatte: <em>Wer die Gurke im Reisig kostet, ist dem verbunden, dem das Reisig gehört.</em></p>
       <p>Ihr Kommentar, überliefert von einer Wandergruppe aus Halberstadt: „Ehrlich gesagt ganz gut.“</p>
@@ -843,7 +959,7 @@ main, footer.site { overflow-x: clip; }
 <!-- ============ V · DIE GEMEINSAME LEGENDE ============ -->
 <section class="chapter wrap" id="legende" aria-labelledby="h-legende">
   <div class="chapter-head reveal">
-    <span class="chapter-num">Kapitel<span class="roman" data-par>V</span></span>
+    <span class="chapter-num">Kapitel<span class="roman" data-par>VII</span></span>
     <h2 id="h-legende">Die gemeinsame Legende</h2>
     <p class="sub">Wie aus einem Ungeheuer und einer Hexe die Zwei vom Brocken wurden</p>
     <svg class="rule" viewBox="0 0 120 14" aria-hidden="true"><path d="M0 7h48M72 7h48" stroke="currentColor" stroke-width="1"/><path d="M60 1l6 6-6 6-6-6z" fill="currentColor"/></svg>
@@ -855,7 +971,8 @@ main, footer.site { overflow-x: clip; }
     <li class="reveal"><span class="when">1702</span><div><h3>Die Kette</h3><p>Mönche ketten ihn an die Teufelskanzel. Er reißt sich los und verliert dabei seine Birkenrute im Schnee.</p></div></li>
     <li class="reveal"><span class="when">1741</span><div><h3>Die erste Spur von ihr</h3><p>Ein Köhler kommt in der Thomasnacht mit weißem Haar vom Berg. Er erzählt von einem schwarzen Mann mit Widderhörnern und von einer rothaarigen Frau, die ihm eine saure Frucht angeboten und dabei gelacht habe. Dann schweigt er für immer. Ob sie damals schon da war oder nur einmal kurz vorbeigeschaut hat, ist unklar.</p></div></li>
     <li class="reveal"><span class="when">1890</span><div><h3>Die Gurke</h3><p>Im neuen Brockengarten wächst aus dem Nichts eine einzige Gurke. Der Gärtner wickelt sie in das alte Reisig von den Klippen. Der Nebel beginnt, sie einzulegen.</p></div></li>
-    <li class="reveal"><span class="when">Ein klarer Mittag</span><div><h3>Die Kostprobe</h3><p>Die Rote Walli findet die Reisiggurke und probiert. Alle Schellen läuten. Er tritt aus dem Nebel, sie dreht sich um. „Oh. Hallo.“ Seitdem sind die beiden unzertrennlich.</p></div></li>
+    <li class="reveal"><span class="when">Ein klarer Mittag</span><div><h3>Die Kostprobe</h3><p>Scharlotta findet die Reisiggurke und probiert. Alle Schellen läuten. Er tritt aus dem Nebel, sie dreht sich um. „Oh. Hallo.“ Seitdem sind die beiden unzertrennlich.</p></div></li>
+    <li class="reveal"><span class="when">Jeden Winter</span><div><h3>Der Jäger ohne Gewehr</h3><p>Forstmeister Claas, Enkel jenes Forstgehilfen von 1958, stellt dem Schellbock nach. Mit Glockenfallen, Wildkameras, Gurkenködern und einem GPS-Halsband. Bilanz bis heute: 47 Versuche, kein Fang, ein Keller voller Gurkengläser mit roter Schleife.</p></div></li>
     <li class="reveal"><span class="when">Seitdem</span><div><h3>Ihr Unwesen</h3><p>Gemeinsam verdrehen sie Wegweiser, bis alle Wege zum Gipfel führen. Sie tippen Wanderern im Nebel auf die Schulter, von beiden Seiten gleichzeitig. Sie füllen unbeaufsichtigte Thermoskannen mit Gurkenwasser. Und beim Hexentanz in der Walpurgisnacht gewinnen sie jedes Jahr den Kostümpreis, obwohl keiner von beiden ein Kostüm trägt. <button type="button" class="hidden-gurke" data-g="3" aria-label="Versteckte Gurke"><svg viewBox="0 0 200 96" aria-hidden="true"><use href="#gurke"/></svg></button></p></div></li>
   </ol>
 
@@ -874,41 +991,17 @@ main, footer.site { overflow-x: clip; }
 <!-- ============ VI · BEGEGNUNGEN ============ -->
 <section class="chapter wrap" id="begegnungen" aria-labelledby="h-begegnungen">
   <div class="chapter-head reveal">
-    <span class="chapter-num">Kapitel<span class="roman" data-par>VI</span></span>
+    <span class="chapter-num">Kapitel<span class="roman" data-par>VIII</span></span>
     <h2 id="h-begegnungen">Begegnungen auf dem Brocken</h2>
     <p class="sub">Abschriften aus einem Archiv, das es offiziell nicht gibt. Namen geschwärzt auf Wunsch der Zeugen oder ihrer Angehörigen.</p>
     <svg class="rule" viewBox="0 0 120 14" aria-hidden="true"><path d="M0 7h48M72 7h48" stroke="currentColor" stroke-width="1"/><path d="M60 1l6 6-6 6-6-6z" fill="currentColor"/></svg>
   </div>
 
   <div class="archive">
-    <figure class="m3d-wrap reveal">
-      <div class="m3d" id="m3d">
-        <canvas id="m3dCanvas" role="img" aria-label="3D-Modell des Brockens mit den Orten der Sichtungen"></canvas>
-        <div class="m3d-loading" id="m3dLoading">Der Berg wird aus dem Nebel geholt …</div>
-        <button class="icon-btn m3d-activate" id="m3dActivate" type="button" hidden>Berg erkunden</button>
-        <div class="m3d-info" id="m3dInfo" hidden>
-          <span class="tafel" id="m3dKicker"></span>
-          <span class="ptitle" id="m3dTitle"></span>
-          <p class="pnote" id="m3dText"></p>
-          <div class="m3d-info-btns"><button class="icon-btn" id="m3dAkte" type="button">Akte lesen</button><button class="icon-btn" id="m3dClose" type="button">Schließen</button></div>
-        </div>
-      </div>
-      <figcaption class="viewer-bar">
-        <span class="tafel">DER BERG IN 3D</span>
-        <div class="viewer-btns">
-          <button class="icon-btn" id="m3dTour" type="button" aria-pressed="true">Rundflug</button>
-          <button class="icon-btn" id="m3dFog" type="button" aria-pressed="true">Nebel</button>
-          <button class="icon-btn" id="m3dSummit" type="button">Zum Gipfel</button>
-          <button class="icon-btn" id="m3dDone" type="button" hidden>Fertig</button>
-        </div>
-      </figcaption>
-      <p class="m3d-help">Ziehen zum Drehen, Mausrad oder zwei Finger zum Zoomen, rechte Maustaste zum Verschieben. Tippe auf eine Marke, auf den Schellbock an der Teufelskanzel oder auf die Hexe über dem Gipfel. Im Brockengarten liegt außerdem etwas Grünes im Schnee.</p>
-    </figure>
-
     <div class="map-card reveal">
       <button type="button" class="hidden-gurke corner" data-g="1" aria-label="Versteckte Gurke"><svg viewBox="0 0 200 96" aria-hidden="true"><use href="#gurke"/></svg></button>
-      <h3>Sichtungen 1741 bis 2024</h3>
-      <p>Orte der Berichte im Brockengebiet. Rote Marken: der Schellbock allein. Grüne Marken: beide zusammen. Tippe auf eine Markierung, um die Akte zu öffnen.</p>
+      <h3>Sichtungen 1741 bis 2024 (zweidimensional, für Altmodische)</h3>
+      <p>Orte der Berichte im Brockengebiet. Rote Marken: der Schellbock allein. Grüne Marken: beide zusammen. Ockerfarben: Forstmeister Claas. Tippe auf eine Markierung, um die Akte zu öffnen.</p>
       <div class="map-scroll">
         <svg id="map" viewBox="0 0 640 430" role="img" aria-label="Karte des Brockens mit markierten Sichtungsorten">
           <g id="contours"></g>
@@ -936,6 +1029,7 @@ main, footer.site { overflow-x: clip; }
           <g class="pin" data-akte="akte-1984" tabindex="0" role="link" aria-label="Akte 1984, Teufelskanzel"><circle class="ring" cx="340" cy="190" r="11"/><circle cx="340" cy="190" r="11"/><text x="340" y="190">3</text></g>
           <g class="pin" data-akte="akte-2009" tabindex="0" role="link" aria-label="Akte 2009, Eckerlochstieg"><circle class="ring" cx="366" cy="252" r="11"/><circle cx="366" cy="252" r="11"/><text x="366" y="252">4</text></g>
           <g class="pin" data-akte="akte-2019" tabindex="0" role="link" aria-label="Akte 2019, Hirtenstieg"><circle class="ring" cx="462" cy="250" r="11"/><circle cx="462" cy="250" r="11"/><text x="462" y="250">5</text></g>
+          <g class="pin claas-pin" data-akte="akte-2015" tabindex="0" role="link" aria-label="Akte 2015, Kastenfalle am Eckerlochstieg"><circle class="ring" cx="412" cy="232" r="11"/><circle cx="412" cy="232" r="11"/><text x="412" y="232">11</text></g>
           <g class="pin duo-pin" data-akte="akte-2021" tabindex="0" role="link" aria-label="Akte 2021, Bahnhof Brocken"><circle class="ring" cx="300" cy="226" r="11"/><circle cx="300" cy="226" r="11"/><text x="300" y="226">6</text></g>
           <g class="pin duo-pin" data-akte="akte-2022" tabindex="0" role="link" aria-label="Akte 2022, Gipfelgaststätte"><circle class="ring" cx="318" cy="172" r="11"/><circle cx="318" cy="172" r="11"/><text x="318" y="172">7</text></g>
           <g class="pin duo-pin" data-akte="akte-2023k" tabindex="0" role="link" aria-label="Akte 2023, Gipfelkamera"><circle class="ring" cx="276" cy="196" r="11"/><circle cx="276" cy="196" r="11"/><text x="276" y="196">8</text></g>
@@ -964,6 +1058,7 @@ main, footer.site { overflow-x: clip; }
         <p>Das Pferd blieb stehen und war nicht mehr vorwärts zu bringen. Ich habe dann die Laterne gelöscht. Warum, weiß ich bis heute nicht. Das Läuten kam den Hang herunter, quer durch den Bestand, wo kein Weg ist. Ich hörte Äste brechen. Dann hörte es auf, keine zwanzig Meter von mir entfernt.</p>
         <p>Ich habe eine ganze Weile so gestanden. Es war vollkommen still, kein Wind. Und dann roch ich es: nasses Fell, Rauch und etwas Süßliches, wie altes Blut. Danach fing das Läuten wieder an, langsam, und entfernte sich bergauf.</p>
         <p>Am Morgen bin ich mit zwei Kollegen zurückgegangen. An drei Fichten fanden wir frische Kratzer, vier Furchen nebeneinander, in gut zweieinhalb Metern Höhe. Der Revierförster hat gesagt, das sei ein Hirsch gewesen. Er hat das Protokoll trotzdem nicht abgezeichnet.</p>
+        <span class="note">Anm. d. Archivs: Der Verfasser war der Großvater des heutigen Forstmeisters Claas.</span>
       </div>
     </article>
 
@@ -996,6 +1091,24 @@ main, footer.site { overflow-x: clip; }
           </table>
         </div>
         <p>Ich habe die Spur auf ganzer Länge fotografiert. Auf allen Bildern ist nur Nebel. Auf dem letzten außerdem ein Daumen, der nicht meiner ist.</p>
+      </div>
+    </article>
+
+    <article class="akte reveal" id="akte-2015" style="--rot:.45deg">
+      <span class="stamp">KEIN FANG</span>
+      <header><span><b>AKTE</b>BK-2015-12</span><span><b>QUELLE</b>Fangprotokoll, Forstmeister Claas</span><span><b>DATUM</b>Advent 2015</span></header>
+      <h3>Fangprotokoll Nr. 23</h3>
+      <div class="body">
+        <div class="table-scroll">
+          <table class="measure log">
+            <tr><th>30.11.</th><td>Glockenfalle, Eckerloch. Glocke weg, Falle weg, Netz ordentlich gefaltet.</td></tr>
+            <tr><th>02.12.</th><td>Fleischköder, Hirtenstieg. Unberührt. Daneben ein leeres Gurkenglas.</td></tr>
+            <tr><th>05.12.</th><td>Kastenfalle mit 5 l sauren Gurken, Eckerlochstieg. Falle geschlossen. Darin: die Rothaarige. Aussage: „Nur getestet.“</td></tr>
+            <tr><th>06.12.</th><td>Ansitz die ganze Nacht, Hochsitz. Ab 02:10 Glocken hinter mir. Nicht umgedreht. Bereue nichts.</td></tr>
+            <tr><th>24.12.</th><td>Keine Falle (Heiligabend). Vor der Försterei: ein Glas Gurken mit roter Schleife. Nicht geöffnet.</td></tr>
+          </table>
+        </div>
+        <span class="note">Nächstes Jahr. C.</span>
       </div>
     </article>
 
@@ -1076,7 +1189,7 @@ main, footer.site { overflow-x: clip; }
       <div class="body">
         <p>Sehr geehrte Damen und Herren,</p>
         <p>ich bin am Dreikönigstag über den Goetheweg aufgestiegen und habe oben auf einer Bank kurz die Augen zugemacht. Fünf Minuten, höchstens. Als ich weitergehen wollte, war mein Rucksack schwerer.</p>
-        <p>Zu Hause fand ich darin eine Gurke. Etwa neunzehn Zentimeter lang, auffällig grün, über und über mit Warzen, kreuzweise mit Birkenreisig umwickelt und mit einem roten Band verschnürt. Dazu ein Zettel in einer sehr schönen, sehr alten Handschrift: „Nur geliehen. Nicht probieren. W.“</p>
+        <p>Zu Hause fand ich darin eine Gurke. Etwa neunzehn Zentimeter lang, auffällig grün, über und über mit Warzen, kreuzweise mit Birkenreisig umwickelt und mit einem roten Band verschnürt. Dazu ein Zettel in einer sehr schönen, sehr alten Handschrift: „Nur geliehen. Nicht probieren. S.“</p>
         <p>Ich habe nicht probiert. Ich möchte das betonen.</p>
         <p>Seitdem läutet nachts etwas vor meinem Haus. Meine Nachbarn sagen, es seien die Kirchenglocken. Wir haben keine Kirche. Gestern stand eine Frau mit roten Haaren an meinem Gartenzaun, winkte freundlich und sagte: „Er hätte sie gern zurück.“ Hinter ihr, im Nebel, war etwas sehr Großes, das ungeduldig mit dem Huf scharrte.</p>
         <p>Ich habe ihr die Gurke gegeben. Sie hat sich bedankt und gefragt, ob ich wirklich nicht probiert habe. Ich habe nein gesagt. Sie hat geseufzt: „Schade. Dann bleibt alles, wie es ist.“</p>
@@ -1091,7 +1204,7 @@ main, footer.site { overflow-x: clip; }
 <!-- ============ VII · STECKBRIEFE ============ -->
 <section class="chapter wrap" id="steckbrief" aria-labelledby="h-steckbrief">
   <div class="chapter-head reveal">
-    <span class="chapter-num">Kapitel<span class="roman" data-par>VII</span></span>
+    <span class="chapter-num">Kapitel<span class="roman" data-par>IX</span></span>
     <h2 id="h-steckbrief">Steckbriefe</h2>
     <p class="sub">Karteikarten aus dem Blocksberg-Archiv. Zuletzt ergänzt im Januar 2024.</p>
     <svg class="rule" viewBox="0 0 120 14" aria-hidden="true"><path d="M0 7h48M72 7h48" stroke="currentColor" stroke-width="1"/><path d="M60 1l6 6-6 6-6-6z" fill="currentColor"/></svg>
@@ -1117,7 +1230,7 @@ main, footer.site { overflow-x: clip; }
           <div><dt>Verhalten</dt><dd class="danger">Unberechenbar</dd></div>
           <div><dt>Besondere Merkmale</dt><dd>Hörner, Glocken, Ketten und ein unheimlicher Blick</dd></div>
           <div><dt>Schwäche</dt><dd>Saures</dd></div>
-          <div><dt>Verbindung</dt><dd>Die Rote Walli, durch die Reisiggurke</dd></div>
+          <div><dt>Verbindung</dt><dd>Scharlotta, durch die Reisiggurke</dd></div>
         </dl>
       </div>
     </div>
@@ -1126,14 +1239,14 @@ main, footer.site { overflow-x: clip; }
       <span class="stamp">GEFÄHRLICH GUT GELAUNT</span>
       <button type="button" class="hidden-gurke corner" data-g="4" aria-label="Versteckte Gurke"><svg viewBox="0 0 200 96" aria-hidden="true"><use href="#gurke"/></svg></button>
       <div class="card-photo">
-        <div class="ph-wrap"><canvas data-scene="witch" role="img" aria-label="Phantombild der Roten Walli"></canvas></div>
+        <div class="ph-wrap"><canvas data-scene="witch" role="img" aria-label="Phantombild von Scharlotta"></canvas></div>
         <small>Phantombild nach Aussage BK-2021-11</small>
       </div>
       <div class="card-body">
         <span class="card-kicker">KARTEIKARTE NR. 14 · DIE HEXE</span>
-        <h3>Die Rote Walli</h3>
+        <h3>Scharlotta</h3>
         <dl class="fields">
-          <div><dt>Name</dt><dd>Die Rote Walli, vermutlich von Walpurga. Bürgerlicher Name unbekannt</dd></div>
+          <div><dt>Name</dt><dd>Scharlotta. Den Namen habe sie vom Scharlachrot ihrer Haare, sagt sie. Nachname unbekannt</dd></div>
           <div><dt>Lebensraum</dt><dd>Gipfel des Brockens, Brockengarten, letzter Wagen der Brockenbahn</dd></div>
           <div><dt>Aktivität</dt><dd>Ganzjährig. Bevorzugt klare Mittage und die Walpurgisnacht</dd></div>
           <div><dt>Erscheinung</dt><dd>Feuerrotes Haar, tiefer Zopf, Sommersprossen, silberne Creolen, dunkle Wanderjacke mit pinkem Kragen. Wirkt jünger, als Kirchenbücher es erlauben</dd></div>
@@ -1143,6 +1256,30 @@ main, footer.site { overflow-x: clip; }
           <div><dt>Besondere Merkmale</dt><dd>Lacht, bevor du den Witz verstanden hast</dd></div>
           <div><dt>Verbindung</dt><dd>Der Schellbock, durch die Reisiggurke</dd></div>
           <div><dt>Empfehlung</dt><dd class="danger">Freundlich grüßen. Nichts essen, was sie anbietet.</dd></div>
+        </dl>
+      </div>
+    </div>
+
+    <div class="card reveal">
+      <span class="stamp">GIBT NICHT AUF</span>
+      <div class="card-photo">
+        <canvas data-scene="forester" role="img" aria-label="Forstmeister Claas mit Laterne und Netz"></canvas>
+        <small>Dienstfoto, Revier Schierke. Im Hintergrund: unbekannt</small>
+      </div>
+      <div class="card-body">
+        <span class="card-kicker">KARTEIKARTE NR. 15 · DER JÄGER</span>
+        <h3>Forstmeister Claas</h3>
+        <dl class="fields">
+          <div><dt>Name</dt><dd>Claas, Forstmeister im Revier Schierke</dd></div>
+          <div><dt>Lebensraum</dt><dd>Försterei, Hochsitz am Eckerloch und jeder Weg, auf dem der Schellbock zuletzt gesehen wurde</dd></div>
+          <div><dt>Aktivität</dt><dd>Rund um die Uhr, vor allem im Advent</dd></div>
+          <div><dt>Ausrüstung</dt><dd>Netz, Laterne, Maßband, Thermoskanne (Inhalt: Gurkenwasser, ohne sein Wissen)</dd></div>
+          <div><dt>Ziel</dt><dd>Den Schellbock fangen, vermessen und das Protokoll von 1958 abzeichnen</dd></div>
+          <div><dt>Fangversuche</dt><dd>47 (Stand Januar 2024)</dd></div>
+          <div><dt>Erfolge</dt><dd class="danger">0</dd></div>
+          <div><dt>Verhältnis zu Scharlotta</dt><dd>Kompliziert</dd></div>
+          <div><dt>Besondere Merkmale</dt><dd>Försterhut mit Gamsbart. Gibt niemals auf.</dd></div>
+          <div><dt>Empfehlung</dt><dd>Grüßen, Glocken melden, nicht lachen</dd></div>
         </dl>
       </div>
     </div>
@@ -1159,7 +1296,7 @@ main, footer.site { overflow-x: clip; }
           <div><dt>Beschaffenheit</dt><dd>Moosgrün, warzig, unverwüstlich</dd></div>
           <div><dt>Umwicklung</dt><dd>Birkenreisig aus der Rute des Schellbocks, rotes Band</dd></div>
           <div><dt>Herkunft</dt><dd>Brockengarten, 1890</dd></div>
-          <div><dt>Geschmack</dt><dd>Sauer. Laut Zeugin W.: „ehrlich gesagt ganz gut“</dd></div>
+          <div><dt>Geschmack</dt><dd>Sauer. Laut Zeugin S.: „ehrlich gesagt ganz gut“</dd></div>
           <div><dt>Zustand</dt><dd class="danger">Nachweislich gekostet</dd></div>
           <div><dt>Verbleib</dt><dd>Unbekannt. Vermutlich zwischen den beiden</dd></div>
         </dl>
@@ -1172,7 +1309,7 @@ main, footer.site { overflow-x: clip; }
 <section class="warning" id="warnung" aria-labelledby="h-warnung">
   <div class="wrap">
     <div class="chapter-head reveal" style="margin-bottom:3rem">
-      <span class="chapter-num">Kapitel<span class="roman" data-par>VIII</span></span>
+      <span class="chapter-num">Kapitel<span class="roman" data-par>X</span></span>
       <h2 id="h-warnung" style="font-family:var(--f-head);font-weight:400;font-size:clamp(2.2rem,6vw,4.2rem);margin:0;color:var(--snow)">Die Warnung</h2>
     </div>
     <div class="warn-text">
@@ -1180,6 +1317,7 @@ main, footer.site { overflow-x: clip; }
       <p class="reveal">Solltest du auf dem Brocken in einer nebligen Winternacht das Läuten schwerer Glocken hören, dann drehe dich nicht um.</p>
       <p class="reveal quiet">Denn vielleicht ist es nicht der Wind, den du hinter dir hörst.</p>
       <p class="reveal quiet">Und wenn dir im Nebel eine Frau mit roten Haaren lächelnd eine Gurke hinhält, dann lehne höflich ab. Sie meint es nicht böse. Er schon.</p>
+      <p class="reveal quiet">Triffst du aber einen Mann mit Försterhut, Laterne und Netz, der dich fragt, ob du Glocken gehört hast: Sag ihm die Wahrheit. Er hat es schon schwer genug.</p>
     </div>
   </div>
   <div class="gaze">
@@ -1193,7 +1331,7 @@ main, footer.site { overflow-x: clip; }
   <div class="share">
     <p class="share-title">Erzähl es weiter. Wenn du dich traust.</p>
     <div class="share-btns">
-      <a class="cta share-wa" href="https://wa.me/?text=Kennst%20du%20die%20Sage%20von%20den%20Zwei%20vom%20Brocken%3F%20Ein%20Monster%2C%20eine%20Hexe%20und%20eine%20Gurke.%20Dreh%20dich%20nicht%20um%3A%20https%3A//claude.ai/artifact/AMrYHBSyh63ZBWpeLqABp7" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.7 11.8 11.8 0 0 0 4.5 4c1.7.7 2.4.8 3.2.6a2.8 2.8 0 0 0 1.8-1.3c.2-.6.2-1.1.2-1.3-.1-.1-.3-.2-.5-.3z"/></svg>Per WhatsApp teilen</a>
+      <a class="cta share-wa" href="https://wa.me/?text=Kennst%20du%20die%20Sage%20von%20den%20Zwei%20vom%20Brocken%3F%20Ein%20Monster%2C%20eine%20Hexe%2C%20ein%20F%C3%B6rster%20und%20eine%20Gurke.%20Dreh%20dich%20nicht%20um%3A%20https%3A//claude.ai/artifact/AMrYHBSyh63ZBWpeLqABp7" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.7 11.8 11.8 0 0 0 4.5 4c1.7.7 2.4.8 3.2.6a2.8 2.8 0 0 0 1.8-1.3c.2-.6.2-1.1.2-1.3-.1-.1-.3-.2-.5-.3z"/></svg>Per WhatsApp teilen</a>
       <button class="icon-btn" id="shareCopy" type="button">Link kopieren</button>
     </div>
     <p class="share-url" id="shareUrl">https://claude.ai/artifact/AMrYHBSyh63ZBWpeLqABp7</p>
@@ -1203,8 +1341,10 @@ main, footer.site { overflow-x: clip; }
   <p>Aufgeschrieben nach dem, was man sich im Oberharz erzählt, wenn die Fensterläden zu sind und die Gurken im Glas.</p>
   <nav aria-label="Kapitel">
     <a href="#zwei" data-jump="zwei">Die Zwei</a>
+    <a href="#berg" data-jump="berg">Der Berg</a>
     <a href="#monster" data-jump="monster">Das Monster</a>
     <a href="#hexe" data-jump="hexe">Die Hexe</a>
+    <a href="#forstmeister" data-jump="forstmeister">Der Forstmeister</a>
     <a href="#gurke" data-jump="gurke">Die Gurke</a>
     <a href="#legende" data-jump="legende">Die Legende</a>
     <a href="#begegnungen" data-jump="begegnungen">Begegnungen</a>
@@ -1220,7 +1360,7 @@ main, footer.site { overflow-x: clip; }
     <svg class="gk anim" viewBox="0 0 200 96" aria-hidden="true"><use href="#gurke"/></svg>
     <h3 id="secretTitle">Das Gurkengelöbnis</h3>
     <p>Du hast alle fünf Gurken gefunden. Nach altem Harzer Recht giltst du damit als Gurkenzeuge oder Gurkenzeugin, mit allen Rechten und, vor allem, allen Pflichten.</p>
-    <p>Die Rote Walli lässt grüßen. Er auch. Er steht übrigens hinter dir.</p>
+    <p>Scharlotta lässt grüßen. Er auch. Er steht übrigens hinter dir. Und Forstmeister Claas möchte dich gern als Zeugen befragen.</p>
     <button type="button" class="icon-btn" id="secretClose">Nicht umdrehen</button>
   </div>
 </div>
@@ -2734,6 +2874,62 @@ function witchFlyer(c, x, y, sc, t) {
   c.restore();
 }
 
+function drawForester(c, x, y, sc, lantern) {
+  c.save(); c.translate(x, y); c.scale(sc, sc); c.lineCap = 'round'; c.lineJoin = 'round';
+  if (lantern) {
+    c.save(); c.globalCompositeOperation = 'lighter';
+    var lg = c.createRadialGradient(122, -200, 0, 122, -200, 170); lg.addColorStop(0, 'rgba(255,190,110,.55)'); lg.addColorStop(0.35, 'rgba(255,160,80,.16)'); lg.addColorStop(1, 'rgba(255,160,80,0)');
+    c.fillStyle = lg; c.fillRect(-60, -380, 360, 360); c.restore();
+  }
+  c.strokeStyle = '#3b2c1e'; c.lineWidth = 6; c.beginPath(); c.moveTo(-46, -170); c.lineTo(-118, -430); c.stroke();
+  c.strokeStyle = 'rgba(200,190,170,.55)'; c.lineWidth = 1.4;
+  c.beginPath(); c.ellipse(-126, -450, 40, 22, -0.3, 0, TAU); c.stroke();
+  for (var i = -3; i <= 3; i++) { c.beginPath(); c.moveTo(-126 + i * 11, -440 + Math.abs(i) * 2); c.quadraticCurveTo(-110 + i * 6, -380, -100 + i * 3, -350); c.stroke(); }
+  for (var k = 0; k < 4; k++) { c.beginPath(); c.moveTo(-150 + k * 6, -425 + k * 20); c.quadraticCurveTo(-120, -415 + k * 22, -95 - k * 2, -428 + k * 22); c.stroke(); }
+  c.fillStyle = '#16130f'; c.fillRect(-30, -120, 24, 120); c.fillRect(6, -120, 24, 120);
+  c.fillStyle = '#0c0a08'; c.fillRect(-34, -20, 32, 20); c.fillRect(4, -20, 36, 20);
+  var cg = c.createLinearGradient(-70, 0, 80, 0); cg.addColorStop(0, '#1e2a19'); cg.addColorStop(0.6, '#2f3f27'); cg.addColorStop(1, '#4a5a37');
+  c.fillStyle = cg; c.beginPath(); c.moveTo(-58, -300); c.quadraticCurveTo(0, -318, 58, -300); c.lineTo(74, -110); c.quadraticCurveTo(0, -96, -72, -110); c.closePath(); c.fill();
+  c.strokeStyle = 'rgba(0,0,0,.45)'; c.lineWidth = 2; c.beginPath(); c.moveTo(2, -300); c.lineTo(4, -104); c.stroke();
+  c.strokeRect(-48, -200, 26, 22); c.strokeRect(24, -200, 26, 22);
+  c.fillStyle = '#5a3b22'; c.fillRect(-60, -196, 124, 10);
+  c.strokeStyle = '#2b3a24'; c.lineWidth = 22; c.beginPath(); c.moveTo(-50, -288); c.quadraticCurveTo(-64, -230, -46, -176); c.stroke();
+  c.beginPath(); c.moveTo(52, -288); c.quadraticCurveTo(86, -250, 108, -214); c.stroke();
+  c.fillStyle = '#8a6448'; c.beginPath(); c.arc(112, -210, 10, 0, TAU); c.fill(); c.beginPath(); c.arc(-46, -172, 10, 0, TAU); c.fill();
+  c.strokeStyle = '#1a1a1a'; c.lineWidth = 2; c.beginPath(); c.moveTo(114, -212); c.lineTo(120, -226); c.stroke();
+  c.fillStyle = '#111'; c.fillRect(108, -224, 28, 6); c.fillRect(110, -186, 24, 6);
+  c.fillStyle = lantern ? '#ffd28a' : '#6a5a40'; c.fillRect(112, -218, 20, 32);
+  c.strokeStyle = '#111'; c.lineWidth = 2; c.strokeRect(112, -218, 20, 32); c.beginPath(); c.moveTo(122, -218); c.lineTo(122, -186); c.stroke();
+  c.fillStyle = '#9a7356'; c.beginPath(); c.ellipse(4, -334, 28, 33, 0, 0, TAU); c.fill();
+  c.fillStyle = 'rgba(255,200,150,.25)'; c.beginPath(); c.ellipse(16, -336, 12, 24, 0, 0, TAU); c.fill();
+  c.fillStyle = '#4e4035'; c.beginPath(); c.moveTo(-22, -330); c.quadraticCurveTo(-20, -290, 6, -284); c.quadraticCurveTo(30, -290, 32, -330); c.quadraticCurveTo(6, -314, -22, -330); c.fill();
+  c.fillStyle = '#1a1410'; c.beginPath(); c.arc(16, -342, 2.6, 0, TAU); c.fill();
+  c.fillStyle = '#2f3a26'; c.beginPath(); c.ellipse(4, -360, 54, 10, -0.05, 0, TAU); c.fill();
+  c.fillStyle = '#36442c'; c.beginPath(); c.moveTo(-28, -362); c.quadraticCurveTo(-32, -400, -12, -404); c.quadraticCurveTo(4, -394, 18, -404); c.quadraticCurveTo(36, -400, 34, -362); c.closePath(); c.fill();
+  c.fillStyle = '#16140f'; c.fillRect(-28, -372, 62, 8);
+  c.strokeStyle = '#9a8a6a'; c.lineWidth = 1.6;
+  for (var t = 0; t < 18; t++) { var a = -2.2 + t * 0.07; c.beginPath(); c.moveTo(-26, -370); c.lineTo(-26 + Math.cos(a) * 44, -370 + Math.sin(a) * 44); c.stroke(); }
+  c.restore();
+}
+
+SCENES.forester = function (ctx, w, h) {
+  var r = seeded(1958);
+  var g = ctx.createLinearGradient(0, 0, 0, h); g.addColorStop(0, '#0b0f14'); g.addColorStop(0.65, '#242c35'); g.addColorStop(1, '#151a20');
+  ctx.fillStyle = g; ctx.fillRect(0, 0, w, h);
+  for (var i = 0; i < 20; i++) { deadSpruce(ctx, r(0, w), h * r(0.8, 0.84), h * r(0.3, 0.7), r, 'rgba(24,30,38,' + r(0.5, 0.9).toFixed(2) + ')', { bare: 0.85 }); }
+  fogBank(ctx, r, { n: 26, x0: -w * 0.1, x1: w * 1.1, y0: h * 0.45, y1: h * 0.85, s0: w * 0.3, s1: w * 0.8, a: 0.2, rgb: '120,132,148' });
+  ground(ctx, w, h, h * 0.82, r, { top: '#3e4752', bot: '#161b22' });
+  var pl = { fx: 500, fy: 1540, px: w * 0.24, py: h * 0.9, s: h * 0.62 / 1600 };
+  ctx.drawImage(creatureLayer(w, h, pl, { eyes: 'off' }, { rgb: '44,52,62', a0: 0.72, a1: 0.9 }), 0, 0);
+  Krampus.eyesAt(ctx, pl, 'glow', 0.95, 1);
+  Krampus.glow(ctx, pl, 1, undefined, 90);
+  fogBank(ctx, r, { n: 14, x0: 0, x1: w * 0.5, y0: h * 0.55, y1: h * 0.95, s0: w * 0.2, s1: w * 0.5, a: 0.16, rgb: '130,140,155' });
+  witchFlyer(ctx, w * 0.82, h * 0.16, w / 520, 1.3);
+  drawForester(ctx, w * 0.6, h * 0.97, h * 0.78 / 450, true);
+  fogBank(ctx, r, { n: 24, x0: -w * 0.1, x1: w * 1.1, y0: h * 0.88, y1: h * 1.04, s0: w * 0.3, s1: w * 0.7, a: 0.26, rgb: '140,150,164' });
+  post(ctx, w, h, { tint: '#2a3a55', tintA: 0.28, vignette: 0.7, grain: 0.08 });
+};
+
 SCENES.witch = function (ctx, w, h) {
   var r = seeded(1741);
   var g = ctx.createLinearGradient(0, 0, 0, h); g.addColorStop(0, '#0b0a10'); g.addColorStop(1, '#1b1418');
@@ -2969,12 +3165,13 @@ function pickleRain(n) {
   var buf = '';
   document.addEventListener('keydown', function (e) {
     if (e.key.length !== 1) { return; }
-    buf = (buf + e.key.toLowerCase()).slice(-6);
+    buf = (buf + e.key.toLowerCase()).slice(-12);
     if (buf.slice(-5) === 'gurke') { pickleRain(36); Sound.ping(); buf = ''; }
-    if (buf.slice(-5) === 'walli') { Hero.flyNow = true; buf = ''; }
+    if (buf.slice(-10) === 'scharlotta') { Hero.flyNow = true; buf = ''; }
+    if (buf.slice(-5) === 'claas') { pickleRain(12); buf = ''; console.log('Claas sucht noch. Claas sucht immer.'); }
   });
   console.log('%cNicht umdrehen.', 'font: italic 22px Georgia, serif; color: #a11d1d');
-  console.log('Wer G-U-R-K-E tippt, bekommt, was er verdient. Wer W-A-L-L-I tippt, sollte nach oben zum Mond schauen.');
+  console.log('Wer G-U-R-K-E tippt, bekommt, was er verdient. Wer S-C-H-A-R-L-O-T-T-A tippt, sollte nach oben zum Mond schauen. Wer C-L-A-A-S tippt, hilft bei der Suche.');
 })();
 
 /* ---------- moon clicks summon the witch ---------- */
@@ -3024,8 +3221,10 @@ var SITES = [
   { n: '7', akte: 'akte-2022', mx: 318, my: 172, duo: true, year: '2022 · Gipfelgaststätte', title: 'Die Bestellung', text: 'Erbsensuppe für die Dame, saure Gurke extra sauer für den Herrn. Bezahlt mit drei Groschen und einer Kuhglocke.' },
   { n: '8', akte: 'akte-2023k', mx: 276, my: 196, duo: true, year: '2023 · Gipfelkamera', title: 'Zwölf Uhr mittags', text: 'Vierzehn Minuten Nebel aus allen Richtungen. Danach riecht das Objektiv nach Essig.' },
   { n: '9', akte: 'akte-2023', mx: 200, my: 233, year: '2023 · Goetheweg', title: 'Die Sprachnachricht', text: 'Drei Glockenschläge, ein Frauenlachen, sehr nah. Am Morgen roch der Absender stark nach Dill.' },
-  { n: '10', akte: 'akte-2024', mx: 96, my: 252, duo: true, year: '2024 · Torfhaus', title: 'Die Gurke im Rucksack', text: '„Nur geliehen. Nicht probieren. W.“ Ein paar Tage später stand sie am Gartenzaun und wollte die Gurke zurück.' },
-  { n: 'G', pickle: true, mx: 250, my: 166, year: '1890 · Brockengarten', title: 'Fundort der Reisiggurke', text: 'Hier wuchs die einzige Gurke des Brockens. Hier hat die Rote Walli probiert. Irgendwo in der Nähe liegt etwas Grünes im Schnee.' },
+  { n: '10', akte: 'akte-2024', mx: 96, my: 252, duo: true, year: '2024 · Torfhaus', title: 'Die Gurke im Rucksack', text: '„Nur geliehen. Nicht probieren. S.“ Ein paar Tage später stand sie am Gartenzaun und wollte die Gurke zurück.' },
+  { n: '11', akte: 'akte-2015', claas: true, mx: 412, my: 232, year: '2015 · Eckerlochstieg', title: 'Die Kastenfalle', text: 'Köder: fünf Liter saure Gurken. Fang: Scharlotta, freiwillig und sehr zufrieden. „Nur getestet.“' },
+  { n: 'C', claas: true, mx: 418, my: 292, year: 'Hochsitz · Eckerloch', title: 'Der Hochsitz von Forstmeister Claas', text: 'Von hier beobachtet er jeden Winter den Hang. Gesehen hat er bisher vor allem Nebel. Einmal eine Gurke, die ihm zugewinkt hat.' },
+  { n: 'G', pickle: true, mx: 250, my: 166, year: '1890 · Brockengarten', title: 'Fundort der Reisiggurke', text: 'Hier wuchs die einzige Gurke des Brockens. Hier hat Scharlotta probiert. Irgendwo in der Nähe liegt etwas Grünes im Schnee.' },
   { n: 'H', mx: 352, my: 196, year: 'Walpurgisnacht · Hexenaltar', title: 'Der Hexenaltar', text: 'Hier wird die Reisiggurke einmal im Jahr gemeinsam gekostet. Was dabei gesprochen wird, hat noch niemand gehört.' }
 ];
 
@@ -3055,7 +3254,7 @@ var Brocken3D = (function () {
   }
   function pinSprite(site) {
     var c = document.createElement('canvas'); c.width = c.height = 128; var g = c.getContext('2d');
-    var fill = site.pickle ? '#4f7a28' : (site.duo ? '#557a2a' : '#a11d1d');
+    var fill = site.pickle ? '#4f7a28' : (site.claas ? '#8a7428' : (site.duo ? '#557a2a' : '#a11d1d'));
     g.fillStyle = 'rgba(0,0,0,.5)'; g.beginPath(); g.arc(64, 64, 58, 0, TAU); g.fill();
     g.fillStyle = fill; g.strokeStyle = '#f0f0ec'; g.lineWidth = 5; g.beginPath(); g.arc(64, 64, 48, 0, TAU); g.fill(); g.stroke();
     g.fillStyle = '#f0f0ec'; g.font = 'bold ' + (site.n.length > 1 ? 44 : 54) + 'px Georgia, serif'; g.textAlign = 'center'; g.textBaseline = 'middle'; g.fillText(site.n, 64, 68);
@@ -3163,6 +3362,9 @@ var Brocken3D = (function () {
     body.userData.pickle = true; clickables.push(body);
 
     var mon = monsterSprite(), mp = M(342, 192); mon.position.set(mp.x, H(mp.x, mp.z) + 5.6, mp.z); mon.userData.monster = true; scene.add(mon); clickables.push(mon);
+    var fc = document.createElement('canvas'); fc.width = 200; fc.height = 320; drawForester(fc.getContext('2d'), 100, 310, 0.72, true);
+    var fsp = new THREE.Sprite(new THREE.SpriteMaterial({ map: new THREE.CanvasTexture(fc), transparent: true })), fpos = M(424, 288);
+    fsp.scale.set(3.6, 5.76, 1); fsp.position.set(fpos.x, H(fpos.x, fpos.z) + 2.8, fpos.z); fsp.userData.claas = true; scene.add(fsp); clickables.push(fsp);
     witchSprite = new THREE.Sprite(new THREE.SpriteMaterial({ map: witchTex(), transparent: true })); witchSprite.scale.set(8, 5, 1); witchSprite.userData.witch = true; scene.add(witchSprite); clickables.push(witchSprite);
 
     var sn = 1400, sg = new THREE.BufferGeometry(), sa = new Float32Array(sn * 3);
@@ -3229,7 +3431,8 @@ var Brocken3D = (function () {
     if (u.site) { showSite(u.site); }
     else if (u.pickle) { showSite({ year: 'Gefunden', title: 'Die Reisiggurke', text: 'Du hast sie gefunden. Leg sie bitte genau so wieder hin. Und nicht probieren.' }); pickleRain(30); Sound.ping(); }
     else if (u.monster) { showSite({ year: 'Teufelskanzel', title: 'Der Schellbock', text: 'Er ist gerade zu Hause. Er sieht dich an. Er hat dich schon vorher gesehen.' }); Sound.ping(); }
-    else if (u.witch) { showSite({ year: 'Über dem Gipfel', title: 'Die Rote Walli', text: 'Auf ihrem Besen aus Birkenreisig, eine Runde nach der anderen. Sie winkt. Du solltest zurückwinken.' }); }
+    else if (u.claas) { showSite({ year: 'Hochsitz · Eckerloch', title: 'Forstmeister Claas', text: 'Er wartet. Er hat Netz, Laterne, Maßband und eine Thermoskanne, in der seit Jahren Gurkenwasser ist. Er weiß es nicht. Sag es ihm nicht.' }); }
+    else if (u.witch) { showSite({ year: 'Über dem Gipfel', title: 'Scharlotta', text: 'Auf ihrem Besen aus Birkenreisig, eine Runde nach der anderen. Sie winkt. Du solltest zurückwinken.' }); }
   });
   document.getElementById('m3dClose').addEventListener('click', function () { info.hidden = true; });
   document.getElementById('m3dAkte').addEventListener('click', function () { if (currentSite && currentSite.akte) { info.hidden = true; jumpTo(currentSite.akte); } });
