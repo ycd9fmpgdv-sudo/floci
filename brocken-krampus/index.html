@@ -477,6 +477,28 @@ main, footer.site { overflow-x: clip; }
   .gk.anim, .vitrine-gurke, .vitrine-glow { animation: none; }
   .divider canvas { transform: none; }
 }
+
+/* ---------- 3D and sharing ---------- */
+.m3d-wrap { margin: 0; }
+.m3d { position: relative; width: 100%; aspect-ratio: 16/10; background: #070a0e; border: 1px solid var(--line); overflow: hidden; }
+@media (max-width: 700px) { .m3d { aspect-ratio: 4/5; } }
+.m3d canvas { display: block; width: 100%; height: 100%; touch-action: pan-y; cursor: grab; }
+.m3d canvas:active { cursor: grabbing; }
+.m3d-loading { position: absolute; inset: 0; display: grid; place-items: center; padding: 1rem; text-align: center; font-family: var(--f-old); font-style: italic; color: var(--ash); }
+.m3d-activate { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); background: rgba(8,8,9,.8); padding: .8rem 1.4rem; font-size: 1rem; }
+.m3d-info { position: absolute; left: 12px; right: 12px; bottom: 12px; max-width: 420px; display: grid; gap: .3rem; padding: 1rem 1.1rem; background: rgba(8,8,9,.92); border: 1px solid rgba(214,204,186,.25); }
+.m3d-info p { margin: 0; }
+.m3d-info-btns { display: flex; gap: .5rem; flex-wrap: wrap; margin-top: .4rem; }
+.m3d-help { margin: .6rem 0 0; font-family: var(--f-old); font-style: italic; color: var(--ash); font-size: .98rem; }
+.gk3d { position: absolute; inset: 0; width: 100%; height: 100%; display: block; touch-action: pan-y; cursor: grab; z-index: 2; }
+.vitrine-stage.is3d .vitrine-gurke { visibility: hidden; position: absolute; }
+.share { display: grid; justify-items: center; gap: .8rem; margin: 0 auto 2.6rem; padding: 1.6rem 1rem; max-width: 560px; border: 1px solid var(--line); background: radial-gradient(ellipse at 50% 0%, rgba(43,63,21,.35), transparent 70%); }
+.share-title { margin: 0; font-family: var(--f-old); font-style: italic; font-size: 1.3rem; color: var(--snow); }
+.share-btns { display: flex; flex-wrap: wrap; justify-content: center; gap: .7rem; align-items: center; }
+.share-wa { margin: 0; background: #1f6f3c; border-color: #2fa35a; }
+.share-wa:hover { background: #24834a; border-color: #3fc06e; }
+.share-wa svg { width: 18px; height: 18px; }
+.share-url { margin: 0; font-family: var(--f-type); font-size: .82rem; color: var(--ash); overflow-wrap: anywhere; user-select: all; }
 </style>
 </head> <!--repo-only-->
 <body> <!--repo-only-->
@@ -587,7 +609,7 @@ main, footer.site { overflow-x: clip; }
       <span class="duo-text">Die Reisiggurke. Sauer. Heilig. Angeleckt.</span>
     </a>
     <a class="duo-card" href="#hexe" data-jump="hexe">
-      <div class="ph-wrap"><canvas data-scene="witch" style="--ar: 4/5" role="img" aria-label="Platzhalter: die Rote Walli als Silhouette mit rotem Haar und Hexenhut"></canvas><span class="ph-label">Bildvorlage folgt</span></div>
+      <div class="ph-wrap"><canvas data-scene="witch" style="--ar: 4/5" role="img" aria-label="Die Rote Walli: rotes Haar, Hexenhut, Gesicht im Schatten"></canvas></div>
       <span class="duo-kicker">Die Hexe</span>
       <span class="duo-name">Die Rote Walli</span>
       <span class="duo-text">Feuerrot, gut gelaunt, unberechenbar. Hat den Nebel nach eigener Aussage „nur ausgeliehen“.</span>
@@ -717,10 +739,10 @@ main, footer.site { overflow-x: clip; }
 
   <div class="plate-row feature witch-row">
     <figure class="plate reveal">
-      <div class="frame tilt" tabindex="0" role="button" aria-label="Platzhalter vergrößern">
-        <div class="ph-wrap"><canvas data-scene="witch" style="--ar: 4/5" role="img" aria-label="Platzhalter: die Rote Walli als Silhouette vor dem Mond, mit wehendem rotem Haar und Hexenhut"></canvas><span class="ph-label">Bildvorlage folgt</span></div>
+      <div class="frame tilt" tabindex="0" role="button" aria-label="Die Rote Walli">
+        <div class="ph-wrap"><canvas data-scene="witch" style="--ar: 4/5" role="img" aria-label="Die Rote Walli vor dem Mond, mit rotem Zopf und Hexenhut"></canvas></div>
       </div>
-      <figcaption><span class="tafel">TAFEL VII</span><span class="ptitle">Die Rote Walli</span><span class="pnote">Platzhalter. Ein Porträt nach Bildvorlage wird hier eingesetzt. Bis dahin: Gegenlicht, Hut, Haar. Mehr bekommt man von ihr meistens ohnehin nicht zu sehen.</span></figcaption>
+      <figcaption><span class="tafel">TAFEL VII</span><span class="ptitle">Die Rote Walli</span><span class="pnote">Nachgezeichnet nach Zeugenaussagen: roter Zopf, silberne Ohrringe, Wanderjacke mit pinkem Kragen. Ihr Gesicht hat noch niemand scharf erwischt. Sie lacht immer im falschen Moment.</span></figcaption>
     </figure>
     <div class="prose reveal">
       <h3 style="margin-top:0"><small>Ihre Herkunft</small>Mit der letzten Bahn gekommen</h3>
@@ -765,6 +787,7 @@ main, footer.site { overflow-x: clip; }
       <button type="button" class="vitrine-gurke" id="vitrineGurke" aria-label="Die Reisiggurke berühren">
         <svg class="gk" viewBox="0 0 200 96" aria-hidden="true"><use href="#gurke"/></svg>
       </button>
+      <canvas id="gk3d" class="gk3d" hidden role="img" aria-label="Die Reisiggurke als drehbares 3D-Modell"></canvas>
       <div class="vitrine-shadow" aria-hidden="true"></div>
     </div>
     <div class="vitrine-label">
@@ -858,6 +881,30 @@ main, footer.site { overflow-x: clip; }
   </div>
 
   <div class="archive">
+    <figure class="m3d-wrap reveal">
+      <div class="m3d" id="m3d">
+        <canvas id="m3dCanvas" role="img" aria-label="3D-Modell des Brockens mit den Orten der Sichtungen"></canvas>
+        <div class="m3d-loading" id="m3dLoading">Der Berg wird aus dem Nebel geholt …</div>
+        <button class="icon-btn m3d-activate" id="m3dActivate" type="button" hidden>Berg erkunden</button>
+        <div class="m3d-info" id="m3dInfo" hidden>
+          <span class="tafel" id="m3dKicker"></span>
+          <span class="ptitle" id="m3dTitle"></span>
+          <p class="pnote" id="m3dText"></p>
+          <div class="m3d-info-btns"><button class="icon-btn" id="m3dAkte" type="button">Akte lesen</button><button class="icon-btn" id="m3dClose" type="button">Schließen</button></div>
+        </div>
+      </div>
+      <figcaption class="viewer-bar">
+        <span class="tafel">DER BERG IN 3D</span>
+        <div class="viewer-btns">
+          <button class="icon-btn" id="m3dTour" type="button" aria-pressed="true">Rundflug</button>
+          <button class="icon-btn" id="m3dFog" type="button" aria-pressed="true">Nebel</button>
+          <button class="icon-btn" id="m3dSummit" type="button">Zum Gipfel</button>
+          <button class="icon-btn" id="m3dDone" type="button" hidden>Fertig</button>
+        </div>
+      </figcaption>
+      <p class="m3d-help">Ziehen zum Drehen, Mausrad oder zwei Finger zum Zoomen, rechte Maustaste zum Verschieben. Tippe auf eine Marke, auf den Schellbock an der Teufelskanzel oder auf die Hexe über dem Gipfel. Im Brockengarten liegt außerdem etwas Grünes im Schnee.</p>
+    </figure>
+
     <div class="map-card reveal">
       <button type="button" class="hidden-gurke corner" data-g="1" aria-label="Versteckte Gurke"><svg viewBox="0 0 200 96" aria-hidden="true"><use href="#gurke"/></svg></button>
       <h3>Sichtungen 1741 bis 2024</h3>
@@ -1079,8 +1126,8 @@ main, footer.site { overflow-x: clip; }
       <span class="stamp">GEFÄHRLICH GUT GELAUNT</span>
       <button type="button" class="hidden-gurke corner" data-g="4" aria-label="Versteckte Gurke"><svg viewBox="0 0 200 96" aria-hidden="true"><use href="#gurke"/></svg></button>
       <div class="card-photo">
-        <div class="ph-wrap"><canvas data-scene="witch" role="img" aria-label="Platzhalter für das Porträt der Roten Walli"></canvas><span class="ph-label">Bildvorlage folgt</span></div>
-        <small>Platzhalter. Porträt folgt nach Bildvorlage.</small>
+        <div class="ph-wrap"><canvas data-scene="witch" role="img" aria-label="Phantombild der Roten Walli"></canvas></div>
+        <small>Phantombild nach Aussage BK-2021-11</small>
       </div>
       <div class="card-body">
         <span class="card-kicker">KARTEIKARTE NR. 14 · DIE HEXE</span>
@@ -1089,7 +1136,7 @@ main, footer.site { overflow-x: clip; }
           <div><dt>Name</dt><dd>Die Rote Walli, vermutlich von Walpurga. Bürgerlicher Name unbekannt</dd></div>
           <div><dt>Lebensraum</dt><dd>Gipfel des Brockens, Brockengarten, letzter Wagen der Brockenbahn</dd></div>
           <div><dt>Aktivität</dt><dd>Ganzjährig. Bevorzugt klare Mittage und die Walpurgisnacht</dd></div>
-          <div><dt>Erscheinung</dt><dd>Feuerrotes Haar, meist als Zopf. Wirkt jünger, als Kirchenbücher es erlauben</dd></div>
+          <div><dt>Erscheinung</dt><dd>Feuerrotes Haar, tiefer Zopf, Sommersprossen, silberne Creolen, dunkle Wanderjacke mit pinkem Kragen. Wirkt jünger, als Kirchenbücher es erlauben</dd></div>
           <div><dt>Alter</dt><dd>Unbekannt. Erste Erwähnung 1741</dd></div>
           <div><dt>Fähigkeiten</dt><dd>Nebel auf Bestellung, Besenflug, Gespräche mit Raben</dd></div>
           <div><dt>Verhalten</dt><dd class="danger">Selbstbewusst, unberechenbar, gut gelaunt. Das macht es nicht besser</dd></div>
@@ -1143,6 +1190,15 @@ main, footer.site { overflow-x: clip; }
 </main>
 
 <footer class="site wrap">
+  <div class="share">
+    <p class="share-title">Erzähl es weiter. Wenn du dich traust.</p>
+    <div class="share-btns">
+      <a class="cta share-wa" href="https://wa.me/?text=Kennst%20du%20die%20Sage%20von%20den%20Zwei%20vom%20Brocken%3F%20Ein%20Monster%2C%20eine%20Hexe%20und%20eine%20Gurke.%20Dreh%20dich%20nicht%20um%3A%20https%3A//claude.ai/artifact/AMrYHBSyh63ZBWpeLqABp7" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.7 11.8 11.8 0 0 0 4.5 4c1.7.7 2.4.8 3.2.6a2.8 2.8 0 0 0 1.8-1.3c.2-.6.2-1.1.2-1.3-.1-.1-.3-.2-.5-.3z"/></svg>Per WhatsApp teilen</a>
+      <button class="icon-btn" id="shareCopy" type="button">Link kopieren</button>
+    </div>
+    <p class="share-url" id="shareUrl">https://claude.ai/artifact/AMrYHBSyh63ZBWpeLqABp7</p>
+  </div>
+
   <p class="end">Sie gehen wieder.</p>
   <p>Aufgeschrieben nach dem, was man sich im Oberharz erzählt, wenn die Fensterläden zu sind und die Gurken im Glas.</p>
   <nav aria-label="Kapitel">
@@ -2690,8 +2746,8 @@ SCENES.witch = function (ctx, w, h) {
   fogBank(ctx, r, { n: 18, x0: -w * 0.1, x1: w * 1.1, y0: h * 0.1, y1: h * 0.7, s0: w * 0.3, s1: w * 0.8, a: 0.12, rgb: '70,58,72' });
   ctx.save(); ctx.translate(w * 0.5, h * 0.62); var u = w / 400; ctx.scale(u, u); ctx.lineCap = 'round';
   var i, sx, sy, ex, ey;
-  for (i = 0; i < 520; i++) {
-    sx = r(-55, 55); sy = r(-150, -60); ex = sx + r(-30, 110); ey = sy + r(120, 330);
+  for (i = 0; i < 300; i++) {
+    sx = r(-55, 55); sy = r(-150, -60); ex = sx + r(-60, 20); ey = sy + r(60, 140);
     ctx.strokeStyle = 'rgba(' + Math.round(r(110, 190)) + ',' + Math.round(r(26, 56)) + ',' + Math.round(r(12, 28)) + ',' + r(0.5, 0.9).toFixed(2) + ')';
     ctx.lineWidth = r(1, 3); ctx.beginPath(); ctx.moveTo(sx, sy);
     ctx.bezierCurveTo(sx + r(10, 50), sy + 60, ex - r(20, 60), ey - 80, ex, ey); ctx.stroke();
@@ -2701,7 +2757,21 @@ SCENES.witch = function (ctx, w, h) {
   ctx.strokeStyle = 'rgba(255,190,150,.18)'; ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(-170, 240); ctx.bezierCurveTo(-155, 130, -100, 76, -40, 56); ctx.stroke();
   ctx.fillStyle = '#0d0a0a'; ctx.beginPath(); ctx.ellipse(0, -62, 52, 68, 0, 0, TAU); ctx.fill();
   ctx.fillRect(-20, -10, 40, 70);
-  for (i = 0; i < 190; i++) {
+  ctx.fillStyle = '#b8236e'; ctx.beginPath(); ctx.moveTo(-42, 50); ctx.quadraticCurveTo(0, 30, 42, 50); ctx.lineTo(36, 64); ctx.quadraticCurveTo(0, 46, -36, 64); ctx.closePath(); ctx.fill();
+  ctx.strokeStyle = 'rgba(255,160,200,.35)'; ctx.lineWidth = 1.5; ctx.beginPath(); ctx.moveTo(-40, 51); ctx.quadraticCurveTo(0, 32, 40, 51); ctx.stroke();
+  ctx.strokeStyle = '#2a2a2e'; ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(0, 46); ctx.lineTo(0, 260); ctx.stroke();
+  for (i = 0; i < 60; i++) {
+    var py = r(-60, 230), pw = 26 - py / 14;
+    ctx.strokeStyle = 'rgba(' + Math.round(r(150, 230)) + ',' + Math.round(r(50, 100)) + ',' + Math.round(r(20, 40)) + ',.8)';
+    ctx.lineWidth = r(1, 2.4); ctx.beginPath(); ctx.moveTo(-58 + r(-pw / 2, pw / 2), py); ctx.quadraticCurveTo(-70, py + 30, -64 + r(-pw / 2, pw / 2), py + r(30, 70)); ctx.stroke();
+  }
+  ctx.strokeStyle = 'rgba(225,225,230,.85)'; ctx.lineWidth = 1.8;
+  ctx.beginPath(); ctx.arc(-51, -44, 4.5, 0, TAU); ctx.stroke(); ctx.beginPath(); ctx.arc(51, -44, 4.5, 0, TAU); ctx.stroke();
+  ctx.fillStyle = 'rgba(255,255,255,.9)'; ctx.fillRect(-55, -46, 1.5, 1.5); ctx.fillRect(47, -46, 1.5, 1.5);
+  ctx.fillStyle = 'rgba(190,120,90,.18)';
+  for (i = 0; i < 26; i++) { ctx.beginPath(); ctx.arc(r(-30, 30), r(-58, -40), r(0.6, 1.4), 0, TAU); ctx.fill(); }
+
+  for (i = 0; i < 70; i++) {
     var side = r() < 0.5 ? -1 : 1; sx = side * r(30, 56); sy = r(-112, -40);
     ex = sx * 1.25 + r(-14, 34); ey = r(60, 210);
     var lit = r() < 0.35;
@@ -2915,6 +2985,367 @@ function pickleRain(n) {
     var rc = heroCv.getBoundingClientRect(), k = heroCv.width / rc.width;
     var x = (e.clientX - rc.left) * k, y = (e.clientY - rc.top) * k, M = heroMeta.moon;
     if (Math.hypot(x - M.x, y - M.y) < M.r * 2.5) { moonHits++; if (moonHits >= 3) { moonHits = 0; Hero.flyNow = true; } }
+  });
+})();
+
+
+/* =====================================================================
+   REAL 3D: the Brocken as a walkable model, and the Reisiggurke
+   (three.js r128, loaded only when a 3D section comes near)
+   ===================================================================== */
+var ThreeLoader = (function () {
+  var p = null;
+  function add(src) { return new Promise(function (res, rej) { var s = document.createElement('script'); s.src = src; s.onload = res; s.onerror = function () { rej(new Error('Skript nicht geladen: ' + src)); }; document.head.appendChild(s); }); }
+  return function () {
+    if (!p) {
+      p = (window.THREE ? Promise.resolve() : add('https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js'))
+        .then(function () { return THREE.OrbitControls ? null : add('https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js'); });
+    }
+    return p;
+  };
+})();
+
+function valueNoise(seed) {
+  function hash(ix, iz) { var h = (ix * 374761393 + iz * 668265263 + seed * 2246822519) | 0; h = Math.imul(h ^ (h >>> 13), 1274126177); return ((h ^ (h >>> 16)) >>> 0) / 4294967296; }
+  function vn(x, z) {
+    var ix = Math.floor(x), iz = Math.floor(z), fx = x - ix, fz = z - iz, u = fx * fx * (3 - 2 * fx), v = fz * fz * (3 - 2 * fz);
+    return lerp(lerp(hash(ix, iz), hash(ix + 1, iz), u), lerp(hash(ix, iz + 1), hash(ix + 1, iz + 1), u), v);
+  }
+  return function (x, z) { var s = 0, a = 1, f = 1, n = 0; for (var o = 0; o < 5; o++) { s += a * vn(x * f, z * f); n += a; a *= 0.5; f *= 2.03; } return s / n; };
+}
+
+var SITES = [
+  { n: '1', akte: 'akte-1741', mx: 582, my: 402, duo: true, year: '1741 · Elend', title: 'Der Köhler aus dem Hohnewald', text: 'Ein Köhler kommt mit weißem Haar vom Berg. Er erzählt von einem gehörnten Mann und einer rothaarigen Frau, die ihm eine saure Frucht anbot.' },
+  { n: '2', akte: 'akte-1958', mx: 395, my: 298, year: '1958 · Eckerloch', title: 'Die Glocken im Wald', text: 'Ein Forstgehilfe hört nachts schwere Schellen quer durch den Bestand kommen. Am Morgen: Kratzspuren in zweieinhalb Metern Höhe.' },
+  { n: '3', akte: 'akte-1984', mx: 340, my: 190, year: '1984 · Teufelskanzel', title: 'Meldung vom Gipfel', text: 'Grenzsoldaten sehen eine über 2,5 Meter große Gestalt mit Hörnern auf den Felsen. Der Vorfall ist nicht weiter zu verfolgen.' },
+  { n: '4', akte: 'akte-2009', mx: 366, my: 252, year: '2009 · Eckerlochstieg', title: 'Spuren im Schnee', text: 'Links ein Huf, rechts eine Klaue. Daneben, sehr leicht und teils hüpfend: ein Wanderschuh, Größe 39.' },
+  { n: '5', akte: 'akte-2019', mx: 462, my: 250, year: '2019 · Hirtenstieg', title: 'Am Hirtenstieg', text: 'Er steht vier Meter vor ihr im Nebel. Eine fröhliche Frauenstimme sagt: „Lass sie. Die ist nett.“' },
+  { n: '6', akte: 'akte-2021', mx: 300, my: 226, duo: true, year: '2021 · Bahnhof Brocken', title: 'Zwei auf dem Bahnsteig', text: '„Gibt es den Gruppentarif mit Begleitung?“ Die Lok hat geantwortet, als er geläutet hat.' },
+  { n: '7', akte: 'akte-2022', mx: 318, my: 172, duo: true, year: '2022 · Gipfelgaststätte', title: 'Die Bestellung', text: 'Erbsensuppe für die Dame, saure Gurke extra sauer für den Herrn. Bezahlt mit drei Groschen und einer Kuhglocke.' },
+  { n: '8', akte: 'akte-2023k', mx: 276, my: 196, duo: true, year: '2023 · Gipfelkamera', title: 'Zwölf Uhr mittags', text: 'Vierzehn Minuten Nebel aus allen Richtungen. Danach riecht das Objektiv nach Essig.' },
+  { n: '9', akte: 'akte-2023', mx: 200, my: 233, year: '2023 · Goetheweg', title: 'Die Sprachnachricht', text: 'Drei Glockenschläge, ein Frauenlachen, sehr nah. Am Morgen roch der Absender stark nach Dill.' },
+  { n: '10', akte: 'akte-2024', mx: 96, my: 252, duo: true, year: '2024 · Torfhaus', title: 'Die Gurke im Rucksack', text: '„Nur geliehen. Nicht probieren. W.“ Ein paar Tage später stand sie am Gartenzaun und wollte die Gurke zurück.' },
+  { n: 'G', pickle: true, mx: 250, my: 166, year: '1890 · Brockengarten', title: 'Fundort der Reisiggurke', text: 'Hier wuchs die einzige Gurke des Brockens. Hier hat die Rote Walli probiert. Irgendwo in der Nähe liegt etwas Grünes im Schnee.' },
+  { n: 'H', mx: 352, my: 196, year: 'Walpurgisnacht · Hexenaltar', title: 'Der Hexenaltar', text: 'Hier wird die Reisiggurke einmal im Jahr gemeinsam gekostet. Was dabei gesprochen wird, hat noch niemand gehört.' }
+];
+
+var Brocken3D = (function () {
+  var wrap = document.getElementById('m3d');
+  if (!wrap) { return null; }
+  var cv = document.getElementById('m3dCanvas'), loadingEl = document.getElementById('m3dLoading');
+  var info = document.getElementById('m3dInfo'), activate = document.getElementById('m3dActivate'), doneBtn = document.getElementById('m3dDone');
+  var started = false, ok = false, visible = false, running = false;
+  var renderer, scene, camera, controls, clickables = [], snow, light, lightMesh, witchSprite, clock, fogOn = true, currentSite = null;
+  var coarse = window.matchMedia && window.matchMedia('(pointer: coarse)').matches;
+  var noise = valueNoise(1141);
+  function M(mx, my) { return { x: (mx - 336) * 0.32, z: (my - 204) * 0.32 }; }
+  function H(x, z) {
+    var d2 = x * x + z * z, h = 50 * Math.exp(-d2 / (2 * 28 * 28)) + 18 * Math.exp(-d2 / (2 * 75 * 75));
+    h += 9 * Math.exp(-((x - 26) * (x - 26) + (z - 18) * (z - 18)) / (2 * 11 * 11));
+    h += 7 * Math.exp(-((x + 30) * (x + 30) + (z + 8) * (z + 8)) / (2 * 13 * 13));
+    h -= 7 * Math.exp(-((x - 18) * (x - 18) + (z - 30) * (z - 30)) / (2 * 10 * 10));
+    return h + (noise(x * 0.045 + 10, z * 0.045) - 0.5) * 10 + (noise(x * 0.22, z * 0.22) - 0.5) * 1.6;
+  }
+  function textSprite(text, w, h, font, color, scale) {
+    var c = document.createElement('canvas'); c.width = w; c.height = h; var g = c.getContext('2d');
+    g.font = font; g.textAlign = 'center'; g.textBaseline = 'middle';
+    g.lineWidth = 8; g.strokeStyle = 'rgba(0,0,0,.85)'; g.strokeText(text, w / 2, h / 2); g.fillStyle = color; g.fillText(text, w / 2, h / 2);
+    var sp = new THREE.Sprite(new THREE.SpriteMaterial({ map: new THREE.CanvasTexture(c), transparent: true, depthWrite: false }));
+    sp.scale.set(scale, scale * h / w, 1); return sp;
+  }
+  function pinSprite(site) {
+    var c = document.createElement('canvas'); c.width = c.height = 128; var g = c.getContext('2d');
+    var fill = site.pickle ? '#4f7a28' : (site.duo ? '#557a2a' : '#a11d1d');
+    g.fillStyle = 'rgba(0,0,0,.5)'; g.beginPath(); g.arc(64, 64, 58, 0, TAU); g.fill();
+    g.fillStyle = fill; g.strokeStyle = '#f0f0ec'; g.lineWidth = 5; g.beginPath(); g.arc(64, 64, 48, 0, TAU); g.fill(); g.stroke();
+    g.fillStyle = '#f0f0ec'; g.font = 'bold ' + (site.n.length > 1 ? 44 : 54) + 'px Georgia, serif'; g.textAlign = 'center'; g.textBaseline = 'middle'; g.fillText(site.n, 64, 68);
+    var sp = new THREE.Sprite(new THREE.SpriteMaterial({ map: new THREE.CanvasTexture(c), transparent: true, depthWrite: false }));
+    sp.scale.set(6, 6, 1); return sp;
+  }
+  function monsterSprite() {
+    var c = document.createElement('canvas'); c.width = 320; c.height = 512; var g = c.getContext('2d');
+    var s = 0.3; g.translate(160 - 500 * s, 500 - 1545 * s); g.scale(s, s); Krampus.draw(g, s, { eyes: 'glow', eyeI: 1 });
+    var sp = new THREE.Sprite(new THREE.SpriteMaterial({ map: new THREE.CanvasTexture(c), transparent: true }));
+    sp.scale.set(5.5, 8.8, 1); return sp;
+  }
+  function witchTex() {
+    var c = document.createElement('canvas'); c.width = 256; c.height = 160; var g = c.getContext('2d');
+    witchFlyer(g, 140, 110, 1.4, 0);
+    return new THREE.CanvasTexture(c);
+  }
+  function svgPathPoints(el, n) {
+    if (!el || !el.getTotalLength) { return []; }
+    var L = el.getTotalLength(), pts = [];
+    for (var i = 0; i <= n; i++) { var p = el.getPointAtLength(L * i / n), m = M(p.x, p.y); pts.push(new THREE.Vector3(m.x, H(m.x, m.z) + 0.5, m.z)); }
+    return pts;
+  }
+  function build() {
+    renderer = new THREE.WebGLRenderer({ canvas: cv, antialias: true });
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, coarse ? 1.5 : 2));
+    scene = new THREE.Scene(); scene.background = new THREE.Color(0x070a0e); scene.fog = new THREE.FogExp2(0x0b0f15, 0.0055);
+    camera = new THREE.PerspectiveCamera(45, 1.6, 0.5, 900); camera.position.set(95, 92, 138);
+    scene.add(new THREE.HemisphereLight(0x8090a8, 0x0a0c10, 0.75));
+    var moon = new THREE.DirectionalLight(0xc8d4ff, 0.8); moon.position.set(-80, 120, -40); scene.add(moon);
+    scene.add(new THREE.AmbientLight(0xffffff, 0.08));
+    var i, x, z, y;
+    var geo = new THREE.PlaneGeometry(280, 280, 180, 180); geo.rotateX(-Math.PI / 2);
+    var pos = geo.attributes.position;
+    for (i = 0; i < pos.count; i++) { pos.setY(i, H(pos.getX(i), pos.getZ(i))); }
+    geo.computeVertexNormals();
+    var nrm = geo.attributes.normal, cols = new Float32Array(pos.count * 3);
+    for (i = 0; i < pos.count; i++) {
+      x = pos.getX(i); z = pos.getZ(i); y = pos.getY(i);
+      var n2 = noise(x * 0.3 + 50, z * 0.3), dead = noise(x * 0.06 + 90, z * 0.06);
+      var snowAmt = clamp((y - 26) / 20, 0, 1) * clamp((nrm.getY(i) - 0.72) / 0.2, 0, 1) * clamp(0.5 + n2, 0, 1.2);
+      snowAmt = clamp(snowAmt + clamp((y - 52) / 10, 0, 0.6), 0, 1);
+      var r = lerp(0.04, 0.2, dead * clamp(y / 40, 0, 1)), gg = lerp(0.07, 0.19, dead * clamp(y / 40, 0, 1)), b = lerp(0.05, 0.17, dead * clamp(y / 40, 0, 1));
+      cols[i * 3] = lerp(r, 0.8, snowAmt); cols[i * 3 + 1] = lerp(gg, 0.84, snowAmt); cols[i * 3 + 2] = lerp(b, 0.9, snowAmt);
+    }
+    geo.setAttribute('color', new THREE.BufferAttribute(cols, 3));
+    scene.add(new THREE.Mesh(geo, new THREE.MeshLambertMaterial({ vertexColors: true })));
+
+    var rr = seeded(2024), m4 = new THREE.Matrix4(), q = new THREE.Quaternion(), sc = new THREE.Vector3(), pv = new THREE.Vector3();
+    var cone = new THREE.ConeGeometry(0.9, 3.4, 6); cone.translate(0, 1.7, 0);
+    var trunk = new THREE.CylinderGeometry(0.05, 0.13, 3.8, 4); trunk.translate(0, 1.9, 0);
+    var spr = new THREE.InstancedMesh(cone, new THREE.MeshLambertMaterial({ color: 0x0c1a11 }), 1900);
+    var ded = new THREE.InstancedMesh(trunk, new THREE.MeshLambertMaterial({ color: 0x3a3632 }), 1700);
+    var ns = 0, nd = 0, guard = 0;
+    while ((ns < 1900 || nd < 1700) && guard++ < 20000) {
+      x = rr(-130, 130); z = rr(-130, 130); y = H(x, z);
+      if (y > 50 || x * x + z * z < 260) { continue; }
+      var isDead = rr() < clamp(0.25 + y / 60, 0, 0.9);
+      var s1 = rr(0.7, 1.45); pv.set(x, y - 0.2, z); q.setFromAxisAngle(new THREE.Vector3(0, 1, 0), rr(0, TAU)); sc.set(s1, s1 * rr(0.8, 1.3), s1); m4.compose(pv, q, sc);
+      if (isDead && nd < 1700) { ded.setMatrixAt(nd++, m4); } else if (!isDead && ns < 1900) { spr.setMatrixAt(ns++, m4); }
+    }
+    spr.count = ns; ded.count = nd; scene.add(spr); scene.add(ded);
+
+    var top = H(0, 0), stone = new THREE.MeshLambertMaterial({ color: 0x77746e, flatShading: true });
+    var tk = M(340, 190);
+    for (i = 0; i < 9; i++) {
+      var rk = new THREE.Mesh(new THREE.IcosahedronGeometry(rr(1, 2.4), 0), stone);
+      x = tk.x + rr(-4, 4); z = tk.z + rr(-3, 3); rk.position.set(x, H(x, z) + rr(0.2, 1.2), z); rk.rotation.set(rr(0, 3), rr(0, 3), rr(0, 3)); rk.scale.y = rr(0.6, 0.9);
+      scene.add(rk);
+    }
+    var grey = new THREE.MeshLambertMaterial({ color: 0x9a9a98 });
+    var tower = new THREE.Mesh(new THREE.CylinderGeometry(0.7, 1.1, 16, 10), grey); tower.position.set(2, top + 7.5, -1); scene.add(tower);
+    var ant = new THREE.Mesh(new THREE.CylinderGeometry(0.12, 0.12, 7, 5), grey); ant.position.set(2, top + 19, -1); scene.add(ant);
+    var plat = new THREE.Mesh(new THREE.CylinderGeometry(1.8, 1.8, 0.8, 12), grey); plat.position.set(2, top + 12, -1); scene.add(plat);
+    var dome = new THREE.Mesh(new THREE.SphereGeometry(3, 16, 10, 0, TAU, 0, Math.PI / 2), new THREE.MeshLambertMaterial({ color: 0xc8c8c4 })); dome.position.set(-6, H(-6, -6) + 2.4, -6); scene.add(dome);
+    var house = new THREE.Mesh(new THREE.BoxGeometry(10, 4, 6), new THREE.MeshLambertMaterial({ color: 0x5a5d62 })); house.position.set(-6, H(-6, -6) + 1.5, -6); scene.add(house);
+    lightMesh = new THREE.Mesh(new THREE.SphereGeometry(0.35, 8, 6), new THREE.MeshBasicMaterial({ color: 0xff3020 })); lightMesh.position.set(2, top + 22.6, -1); scene.add(lightMesh);
+    light = new THREE.PointLight(0xff2a1a, 1.4, 40); light.position.copy(lightMesh.position); scene.add(light);
+
+    var railPts = svgPathPoints(document.querySelector('#map .rail'), 160);
+    if (railPts.length) { scene.add(new THREE.Mesh(new THREE.TubeGeometry(new THREE.CatmullRomCurve3(railPts), 300, 0.35, 5), new THREE.MeshLambertMaterial({ color: 0x1b1410 }))); }
+    document.querySelectorAll('#map .trail').forEach(function (tr) {
+      var pts = svgPathPoints(tr, 120);
+      if (!pts.length) { return; }
+      var lg = new THREE.BufferGeometry().setFromPoints(pts), ln = new THREE.Line(lg, new THREE.LineDashedMaterial({ color: 0xd6ccba, dashSize: 1.4, gapSize: 1 }));
+      ln.computeLineDistances(); scene.add(ln);
+    });
+
+    var lineMat = new THREE.LineBasicMaterial({ color: 0xd6ccba, transparent: true, opacity: 0.5 });
+    SITES.forEach(function (site) {
+      var m = M(site.mx, site.my), gy = H(m.x, m.z), sp = pinSprite(site);
+      sp.position.set(m.x, gy + 10, m.z); sp.userData.site = site; scene.add(sp); clickables.push(sp);
+      scene.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(m.x, gy, m.z), new THREE.Vector3(m.x, gy + 7, m.z)]), lineMat));
+    });
+    [['BROCKEN · 1141 m', 336, 204, 30, 26], ['Schierke', 492, 380, 4, 16], ['Elend', 582, 418, 4, 14], ['Torfhaus', 40, 270, 4, 16], ['Drei Annen Hohne', 600, 300, 4, 20]].forEach(function (lb) {
+      var m = M(lb[1], lb[2]), sp = textSprite(lb[0], 512, 96, '600 52px Georgia, serif', '#f0f0ec', lb[4]);
+      sp.position.set(m.x, H(m.x, m.z) + lb[3], m.z); scene.add(sp);
+    });
+
+    var gm = M(256, 160), pg = new THREE.Group();
+    var body = new THREE.Mesh(new THREE.CylinderGeometry(0.5, 0.5, 2.2, 10), new THREE.MeshLambertMaterial({ color: 0x5e8a2c, emissive: 0x16240a }));
+    body.rotation.z = Math.PI / 2; pg.add(body);
+    var bow = new THREE.Mesh(new THREE.TorusGeometry(0.55, 0.12, 6, 12), new THREE.MeshLambertMaterial({ color: 0x8c1717 })); bow.rotation.y = Math.PI / 2; bow.position.x = 0.6; pg.add(bow);
+    pg.position.set(gm.x, H(gm.x, gm.z) + 0.6, gm.z); pg.scale.setScalar(1.3); pg.userData.pickle = true; scene.add(pg);
+    body.userData.pickle = true; clickables.push(body);
+
+    var mon = monsterSprite(), mp = M(342, 192); mon.position.set(mp.x, H(mp.x, mp.z) + 5.6, mp.z); mon.userData.monster = true; scene.add(mon); clickables.push(mon);
+    witchSprite = new THREE.Sprite(new THREE.SpriteMaterial({ map: witchTex(), transparent: true })); witchSprite.scale.set(8, 5, 1); witchSprite.userData.witch = true; scene.add(witchSprite); clickables.push(witchSprite);
+
+    var sn = 1400, sg = new THREE.BufferGeometry(), sa = new Float32Array(sn * 3);
+    for (i = 0; i < sn; i++) { sa[i * 3] = rr(-120, 120); sa[i * 3 + 1] = rr(0, 120); sa[i * 3 + 2] = rr(-120, 120); }
+    sg.setAttribute('position', new THREE.BufferAttribute(sa, 3));
+    snow = new THREE.Points(sg, new THREE.PointsMaterial({ color: 0xeef2f8, size: 0.55, transparent: true, opacity: 0.85, depthWrite: false }));
+    scene.add(snow);
+
+    controls = new THREE.OrbitControls(camera, cv);
+    controls.target.set(0, 34, 0); controls.enableDamping = true; controls.dampingFactor = 0.08;
+    controls.minDistance = 30; controls.maxDistance = 260; controls.maxPolarAngle = 1.42; controls.autoRotate = !REDUCED; controls.autoRotateSpeed = 0.45;
+    controls.addEventListener('start', function () { controls.autoRotate = false; document.getElementById('m3dTour').setAttribute('aria-pressed', 'false'); });
+    if (coarse) { setActive(false); activate.hidden = false; }
+    clock = new THREE.Clock();
+    resize();
+    if ('ResizeObserver' in window) { new ResizeObserver(resize).observe(wrap); }
+    ok = true;
+  }
+  function setActive(on) {
+    controls.enabled = on; cv.style.touchAction = on ? 'none' : 'pan-y';
+    activate.hidden = on; doneBtn.hidden = !on || !coarse;
+  }
+  function resize() {
+    if (!renderer) { return; }
+    var w = wrap.clientWidth, h = wrap.clientHeight;
+    renderer.setSize(w, h, false); camera.aspect = w / h; camera.updateProjectionMatrix();
+  }
+  function frame() {
+    if (!visible || document.hidden) { running = false; return; }
+    var dt = Math.min(clock.getDelta(), 0.05), t = clock.elapsedTime;
+    controls.update();
+    var on = Math.floor(t * 0.8) % 2 === 0; lightMesh.visible = on; light.intensity = on ? 1.4 : 0;
+    var a = t * 0.25, top = H(0, 0);
+    witchSprite.position.set(Math.cos(a) * 22, top + 22 + Math.sin(t * 1.3) * 1.5, Math.sin(a) * 22);
+    witchSprite.material.rotation = Math.sin(t) * 0.08;
+    if (!REDUCED) {
+      var arr = snow.geometry.attributes.position.array;
+      for (var i = 1; i < arr.length; i += 3) { arr[i] -= dt * 6; if (arr[i] < 0) { arr[i] = 120; } }
+      snow.geometry.attributes.position.needsUpdate = true;
+    }
+    renderer.render(scene, camera);
+    requestAnimationFrame(frame);
+  }
+  function loop() { if (ok && visible && !running) { running = true; clock.getDelta(); requestAnimationFrame(frame); } }
+  function showSite(site) {
+    currentSite = site;
+    document.getElementById('m3dKicker').textContent = site.year;
+    document.getElementById('m3dTitle').textContent = site.title;
+    document.getElementById('m3dText').textContent = site.text;
+    document.getElementById('m3dAkte').hidden = !site.akte;
+    info.hidden = false;
+  }
+  var down = null, ray = null, ndc = null;
+  cv.addEventListener('pointerdown', function (e) { down = { x: e.clientX, y: e.clientY }; });
+  cv.addEventListener('pointerup', function (e) {
+    if (!ok || !down || Math.hypot(e.clientX - down.x, e.clientY - down.y) > 7) { return; }
+    var rc = cv.getBoundingClientRect();
+    ray = ray || new THREE.Raycaster(); ndc = ndc || new THREE.Vector2();
+    ndc.set((e.clientX - rc.left) / rc.width * 2 - 1, -((e.clientY - rc.top) / rc.height) * 2 + 1);
+    ray.setFromCamera(ndc, camera);
+    var hit = ray.intersectObjects(clickables, false)[0];
+    if (!hit) { return; }
+    var u = hit.object.userData;
+    if (u.site) { showSite(u.site); }
+    else if (u.pickle) { showSite({ year: 'Gefunden', title: 'Die Reisiggurke', text: 'Du hast sie gefunden. Leg sie bitte genau so wieder hin. Und nicht probieren.' }); pickleRain(30); Sound.ping(); }
+    else if (u.monster) { showSite({ year: 'Teufelskanzel', title: 'Der Schellbock', text: 'Er ist gerade zu Hause. Er sieht dich an. Er hat dich schon vorher gesehen.' }); Sound.ping(); }
+    else if (u.witch) { showSite({ year: 'Über dem Gipfel', title: 'Die Rote Walli', text: 'Auf ihrem Besen aus Birkenreisig, eine Runde nach der anderen. Sie winkt. Du solltest zurückwinken.' }); }
+  });
+  document.getElementById('m3dClose').addEventListener('click', function () { info.hidden = true; });
+  document.getElementById('m3dAkte').addEventListener('click', function () { if (currentSite && currentSite.akte) { info.hidden = true; jumpTo(currentSite.akte); } });
+  activate.addEventListener('click', function () { if (ok) { setActive(true); } });
+  doneBtn.addEventListener('click', function () { if (ok) { setActive(false); } });
+  document.getElementById('m3dTour').addEventListener('click', function () { if (!ok) { return; } controls.autoRotate = !controls.autoRotate; this.setAttribute('aria-pressed', String(controls.autoRotate)); });
+  document.getElementById('m3dFog').addEventListener('click', function () { if (!ok) { return; } fogOn = !fogOn; scene.fog.density = fogOn ? 0.0055 : 0.0014; this.setAttribute('aria-pressed', String(fogOn)); });
+  document.getElementById('m3dSummit').addEventListener('click', function () {
+    if (!ok) { return; } var near = this.getAttribute('data-near') !== '1';
+    if (near) { camera.position.set(28, H(0, 0) + 20, 34); controls.target.set(0, H(0, 0) + 4, -2); this.textContent = 'Übersicht'; }
+    else { camera.position.set(95, 92, 138); controls.target.set(0, 34, 0); this.textContent = 'Zum Gipfel'; }
+    this.setAttribute('data-near', near ? '1' : '0');
+  });
+  function start() {
+    if (started) { loop(); return; }
+    started = true;
+    ThreeLoader().then(function () {
+      try { build(); loadingEl.hidden = true; loop(); }
+      catch (err) { console.error('3D-Berg fehlgeschlagen', err); loadingEl.textContent = 'Dein Gerät kann den 3D-Berg nicht darstellen. Die Karte darunter zeigt alle Orte.'; }
+    }).catch(function (err) { console.error(err); loadingEl.textContent = '3D konnte nicht geladen werden. Die Karte darunter zeigt alle Orte.'; });
+  }
+  return { el: wrap, setVisible: function (v) { visible = v; if (v) { start(); } } };
+})();
+
+var Pickle3D = (function () {
+  var cv = document.getElementById('gk3d'), stage = document.getElementById('vitrineStage');
+  if (!cv) { return null; }
+  var started = false, ok = false, visible = false, running = false, renderer, scene, camera, group, rotY = 0.6, rotX = 0.25, vy = 0.004, drag = null;
+  function radius(t) { return 1.55 * Math.pow(Math.sin(Math.PI * clamp(t, 0.001, 0.999)), 0.55); }
+  function build() {
+    var w = stage.clientWidth, h = stage.clientHeight;
+    renderer = new THREE.WebGLRenderer({ canvas: cv, antialias: true, alpha: true });
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2)); renderer.setSize(w, h, false);
+    scene = new THREE.Scene(); camera = new THREE.PerspectiveCamera(35, w / h, 0.1, 100); camera.position.set(0, 0.6, 15);
+    scene.add(new THREE.AmbientLight(0xffffff, 0.35));
+    var key = new THREE.DirectionalLight(0xfff0d8, 1.1); key.position.set(-5, 6, 8); scene.add(key);
+    var rim = new THREE.DirectionalLight(0x9fd06a, 0.7); rim.position.set(6, -2, -6); scene.add(rim);
+    group = new THREE.Group(); scene.add(group);
+    var prof = []; for (var i = 0; i <= 28; i++) { var t = i / 28; prof.push(new THREE.Vector2(radius(t), (t - 0.5) * 9)); }
+    var lg = new THREE.LatheGeometry(prof, 40); lg.rotateZ(Math.PI / 2);
+    var pp = lg.attributes.position;
+    for (i = 0; i < pp.count; i++) { var x = pp.getX(i); pp.setY(i, pp.getY(i) + 0.035 * x * x - 0.4); }
+    lg.computeVertexNormals();
+    group.add(new THREE.Mesh(lg, new THREE.MeshStandardMaterial({ color: 0x5f8a2e, roughness: 0.55, metalness: 0.05 })));
+    var r = seeded(1890), wart = new THREE.InstancedMesh(new THREE.SphereGeometry(0.16, 8, 6), new THREE.MeshStandardMaterial({ color: 0x3e5b1d, roughness: 0.7 }), 90), m4 = new THREE.Matrix4();
+    for (i = 0; i < 90; i++) {
+      var tt = r(0.08, 0.92), ph = r(0, TAU), rad = radius(tt), xx = (tt - 0.5) * 9;
+      m4.makeTranslation(-xx, Math.cos(ph) * rad + 0.035 * xx * xx - 0.4, Math.sin(ph) * rad); wart.setMatrixAt(i, m4);
+    }
+    group.add(wart);
+    var twigMat = new THREE.MeshStandardMaterial({ color: 0x5a4332, roughness: 0.9 }), birch = new THREE.MeshStandardMaterial({ color: 0xcfc6b4, roughness: 0.9 });
+    [[0, 2.2, twigMat], [1.7, 2.6, birch], [3.4, 1.8, twigMat]].forEach(function (tw) {
+      var pts = [];
+      for (var k = 0; k <= 60; k++) { var u = 0.06 + 0.88 * k / 60, a = tw[0] + u * tw[1] * TAU * 0.5, rr2 = radius(u) + 0.12, x2 = (u - 0.5) * 9; pts.push(new THREE.Vector3(-x2, Math.cos(a) * rr2 + 0.035 * x2 * x2 - 0.4, Math.sin(a) * rr2)); }
+      group.add(new THREE.Mesh(new THREE.TubeGeometry(new THREE.CatmullRomCurve3(pts), 120, 0.07, 5), tw[2]));
+    });
+    var red = new THREE.MeshStandardMaterial({ color: 0x8c1717, roughness: 0.6 });
+    var band = new THREE.Mesh(new THREE.TorusGeometry(radius(0.78) + 0.1, 0.16, 8, 30), red); band.rotation.y = Math.PI / 2; band.position.set(-(0.78 - 0.5) * 9, 0.035 * 6.4 - 0.4, 0); group.add(band);
+    [-1, 1].forEach(function (sgn) { var lp = new THREE.Mesh(new THREE.TorusGeometry(0.45, 0.11, 6, 14), red); lp.position.set(band.position.x, band.position.y + radius(0.78) + 0.5, sgn * 0.45); lp.rotation.x = sgn * 0.6; group.add(lp); });
+    ok = true;
+  }
+  function frame() {
+    if (!visible || document.hidden) { running = false; return; }
+    if (!drag) { rotY += vy; vy += (0.004 - vy) * 0.02; }
+    group.rotation.set(rotX, rotY, Math.sin(Date.now() / 1400) * 0.06);
+    group.position.y = Math.sin(Date.now() / 900) * 0.15;
+    renderer.render(scene, camera);
+    requestAnimationFrame(frame);
+  }
+  function loop() { if (ok && visible && !running) { running = true; requestAnimationFrame(frame); } }
+  cv.addEventListener('pointerdown', function (e) { drag = { x: e.clientX, y: e.clientY, sx: e.clientX, sy: e.clientY }; });
+  cv.addEventListener('pointermove', function (e) {
+    if (!drag) { return; }
+    var dx = e.clientX - drag.x, dy = e.clientY - drag.y; drag.x = e.clientX; drag.y = e.clientY;
+    rotY += dx * 0.012; vy = dx * 0.004; if (e.pointerType === 'mouse') { rotX = clamp(rotX + dy * 0.008, -0.9, 0.9); }
+  });
+  window.addEventListener('pointerup', function (e) {
+    if (!drag) { return; }
+    var tap = Math.hypot(e.clientX - drag.sx, e.clientY - drag.sy) < 7; drag = null;
+    if (tap && e.target === cv) { document.getElementById('vitrineGurke').click(); vy = 0.12; }
+  });
+  function start() {
+    if (started) { loop(); return; }
+    started = true;
+    ThreeLoader().then(function () {
+      try {
+        build(); cv.hidden = false; stage.classList.add('is3d');
+        document.getElementById('vitrineNote').textContent = 'Ziehen zum Drehen. Antippen auf eigene Gefahr.';
+        loop();
+      } catch (err) { console.error('3D-Gurke fehlgeschlagen', err); }
+    }).catch(function (err) { console.error(err); });
+  }
+  return { el: stage, setVisible: function (v) { visible = v; if (v) { start(); } } };
+})();
+
+if ('IntersectionObserver' in window) {
+  var io3d = new IntersectionObserver(function (entries) {
+    entries.forEach(function (en) {
+      if (Brocken3D && en.target === Brocken3D.el) { Brocken3D.setVisible(en.isIntersecting); }
+      if (Pickle3D && en.target === Pickle3D.el) { Pickle3D.setVisible(en.isIntersecting); }
+    });
+  }, { rootMargin: '300px 0px' });
+  if (Brocken3D) { io3d.observe(Brocken3D.el); }
+  if (Pickle3D) { io3d.observe(Pickle3D.el); }
+}
+
+/* ---------- share ---------- */
+(function () {
+  var btn = document.getElementById('shareCopy'), url = document.getElementById('shareUrl');
+  if (!btn) { return; }
+  btn.addEventListener('click', function () {
+    var text = url.textContent.trim();
+    var fallback = function () { var rg = document.createRange(); rg.selectNodeContents(url); var sel = window.getSelection(); sel.removeAllRanges(); sel.addRange(rg); btn.textContent = 'Markiert, jetzt kopieren'; };
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(function () { btn.textContent = 'Kopiert'; setTimeout(function () { btn.textContent = 'Link kopieren'; }, 2500); }, fallback);
+    } else { fallback(); }
   });
 })();
 
