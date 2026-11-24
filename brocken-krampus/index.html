@@ -150,6 +150,8 @@ button { font: inherit; color: inherit; }
 .intro-veil { position: absolute; inset: 0; background: #000; z-index: 4; pointer-events: none; transition: opacity 2.6s ease; display: grid; place-items: center; }
 .intro-veil span { font-family: var(--f-old); font-style: italic; color: var(--ash); letter-spacing: .1em; font-size: 1rem; opacity: .8; }
 .intro-veil.gone { opacity: 0; }
+.intro-veil { animation: veil-out 1.2s ease 4.5s forwards; }
+@keyframes veil-out { to { opacity: 0; visibility: hidden; } }
 .hero-copy > * { animation: rise 1.8s var(--ease) both; }
 .hero-copy > :nth-child(1) { animation-delay: 1.6s; }
 .hero-copy > :nth-child(2) { animation-delay: 2.0s; }
