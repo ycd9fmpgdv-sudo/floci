@@ -2289,6 +2289,7 @@ function creatureLayer(w, h, pl, opts, tint) {
   }
   return c;
 }
+function blit(ctx, layer) { ctx.drawImage(layer, 0, 0); layer.width = 0; layer.height = 0; }
 function placeDraw(ctx, pl, opts) { ctx.save(); ctx.translate(pl.px - pl.fx * pl.s, pl.py - pl.fy * pl.s); ctx.scale(pl.s, pl.s); Krampus.draw(ctx, pl.s, opts); ctx.restore(); }
 function contactShadow(ctx, pl, k) {
   var x = pl.px + (520 - pl.fx) * pl.s, y = pl.py + (1542 - pl.fy) * pl.s, rx = 260 * pl.s, ry = 34 * pl.s;
@@ -2316,7 +2317,7 @@ var SCENES = {
     var pl = { fx: 500, fy: 1540, px: w * 0.5, py: h * (portrait ? 0.9 : 0.945), s: s };
     contactShadow(ctx, pl, 0.55);
     var layer = creatureLayer(w, h, pl, { eyes: 'off' }, { rgb: '20,26,34', a0: 0.28, a1: 0.82, y0: pl.py - 1250 * s, y1: pl.py });
-    ctx.drawImage(layer, 0, 0);
+    blit(ctx, layer);
     for (var k = 0; k < 6; k++) { var fx = r() < 0.5 ? r(-w * 0.05, w * 0.2) : r(w * 0.8, w * 1.05); deadSpruce(ctx, fx, h * r(0.95, 1.05), h * r(0.75, 1.15), r, '#06080b', { bare: 1.0, thick: 0.016, snow: 'rgba(200,210,225,.1)' }); }
     fogBank(ctx, r, { n: 34, x0: -w * 0.1, x1: w * 1.1, y0: h * 0.8, y1: h * 1.02, s0: w * 0.3, s1: w * 0.7, a: 0.26, rgb: '140,150,164' });
     post(ctx, w, h, { tint: '#2a3a58', tintA: 0.35, vignette: 0.78, grain: 0.05 });
@@ -2333,7 +2334,7 @@ var SCENES = {
     ground(ctx, w, h, h * 0.79, r, { top: '#48525e', bot: '#1a1f26', drift: 0.14 });
     var pl = { fx: 500, fy: 1540, px: w * 0.5, py: h * 0.955, s: h * 0.85 / 1600 };
     contactShadow(ctx, pl, 0.65);
-    ctx.drawImage(creatureLayer(w, h, pl, { eyes: 'glow', eyeI: 0.9 }, { rgb: '34,42,52', a0: 0.04, a1: 0.42, y0: h * 0.1, y1: h }), 0, 0);
+    blit(ctx, creatureLayer(w, h, pl, { eyes: 'glow', eyeI: 0.9 }, { rgb: '34,42,52', a0: 0.04, a1: 0.42, y0: h * 0.1, y1: h }));
     Krampus.glow(ctx, pl, 0.75);
     fogBank(ctx, r, { n: 26, x0: -w * 0.1, x1: w * 1.1, y0: h * 0.86, y1: h * 1.02, s0: w * 0.3, s1: w * 0.7, a: 0.3, rgb: '150,160,172' });
     post(ctx, w, h, { tint: '#2a3a55', tintA: 0.3, vignette: 0.62, grain: 0.08 });
@@ -2390,7 +2391,7 @@ var SCENES = {
     });
     var pl = { fx: 500, fy: 1540, px: w * 0.47, py: gy + h * 0.27, s: h * 0.64 / 1600 };
     contactShadow(ctx, pl, 0.45);
-    ctx.drawImage(creatureLayer(w, h, pl, { eyes: 'off' }, { rgb: '150,150,150', a0: 0.15, a1: 0.26 }), 0, 0);
+    blit(ctx, creatureLayer(w, h, pl, { eyes: 'off' }, { rgb: '150,150,150', a0: 0.15, a1: 0.26 }));
     Krampus.eyesAt(ctx, pl, 'ir', 1, 1);
     Krampus.glow(ctx, pl, 1.6, '255,255,255', 55);
     for (var i2 = 0; i2 < 5; i2++) { var v2 = Math.round(r(110, 160)); deadSpruce(ctx, r() < 0.5 ? r(0, w * 0.32) : r(w * 0.66, w), gy + h * r(0.2, 0.32), h * 1.5, r, 'rgb(' + v2 + ',' + v2 + ',' + v2 + ')', { thick: 0.016, bare: 0.6 }); }
@@ -2427,7 +2428,7 @@ var SCENES = {
     var pile = [[0.03, 0.53, 0.075, 0.055], [-0.05, 0.63, 0.09, 0.07], [0.09, 0.64, 0.085, 0.068], [-0.13, 0.76, 0.1, 0.085], [0.02, 0.75, 0.11, 0.085], [0.16, 0.77, 0.1, 0.08], [-0.24, 0.9, 0.12, 0.1], [-0.09, 0.9, 0.12, 0.1], [0.07, 0.9, 0.12, 0.1], [0.22, 0.9, 0.12, 0.1]];
     pile.forEach(function (b) { granite(ctx, cx + b[0] * w, b[1] * h, b[2] * w, b[3] * h * 1.25, r, { hi: '#6d6962', mid: '#3a3733', lo: '#141311', snow: 'rgba(235,235,228,.85)' }); });
     var pl = { fx: 500, fy: 1540, px: cx + 0.03 * w, py: (0.53 - 0.052) * h, s: h * 0.4 / 1600 };
-    ctx.drawImage(creatureLayer(w, h, pl, { eyes: 'off' }, { rgb: '30,28,26', a0: 0.5, a1: 0.62 }), 0, 0);
+    blit(ctx, creatureLayer(w, h, pl, { eyes: 'off' }, { rgb: '30,28,26', a0: 0.5, a1: 0.62 }));
     Krampus.eyesAt(ctx, pl, 'glow', 0.7, 1);
     Krampus.glow(ctx, pl, 0.6, '255,140,60', 90);
     fogBank(ctx, r, { n: 16, x0: pl.px - w * 0.2, x1: pl.px + w * 0.2, y0: pl.py - h * 0.2, y1: pl.py + h * 0.05, s0: w * 0.15, s1: w * 0.35, a: 0.18, rgb: '205,200,190' });
@@ -2443,7 +2444,7 @@ var SCENES = {
     fogBank(ctx, r, { n: 26, x0: -w * 0.1, x1: w * 1.1, y0: 0, y1: h, s0: w * 0.3, s1: w * 0.8, a: 0.1, rgb: '60,66,76' });
     var s = Math.min(w / 640, h / 430), pl = { fx: 500, fy: 350, px: w * 0.5, py: h * 0.5, s: s };
     var ex = pl.px, ey = pl.py + (314 - 350) * s;
-    ctx.drawImage(creatureLayer(w, h, pl, { eyes: 'glow', eyeI: 1 }, { rgb: '0,0,0', a0: 0.05, a1: 0.95, radial: [ex, ey, 30 * s, 330 * s] }), 0, 0);
+    blit(ctx, creatureLayer(w, h, pl, { eyes: 'glow', eyeI: 1 }, { rgb: '0,0,0', a0: 0.05, a1: 0.95, radial: [ex, ey, 30 * s, 330 * s] }));
     Krampus.glow(ctx, pl, 1.1, undefined, 80);
     fogBank(ctx, r, { n: 30, x0: -w * 0.1, x1: w * 1.1, y0: h * 0.55, y1: h * 1.05, s0: w * 0.3, s1: w * 0.8, a: 0.26, rgb: '70,76,86' });
     post(ctx, w, h, { tint: '#2a3a55', tintA: 0.25, vignette: 0.85, grain: 0.06 });
@@ -2464,9 +2465,11 @@ var SCENES = {
 /* =====================================================================
    RENDERING PIPELINE
    ===================================================================== */
-var DPR = Math.min(window.devicePixelRatio || 1, 2);
+var SMALL = (window.matchMedia && window.matchMedia('(pointer: coarse)').matches) || window.innerWidth < 760;
+var DPR = Math.min(window.devicePixelRatio || 1, SMALL ? 1.5 : 2);
 function sizeCanvas(cv, maxPx, dprCap) {
   var rect = cv.getBoundingClientRect(), d = Math.min(DPR, dprCap || 2);
+  if (SMALL) { maxPx = Math.min(maxPx, 1300); }
   var w = Math.round(rect.width * d), h = Math.round(rect.height * d);
   if (w > maxPx) { h = Math.round(h * maxPx / w); w = maxPx; }
   if (h > maxPx) { w = Math.round(w * maxPx / h); h = maxPx; }
@@ -2477,6 +2480,7 @@ function render(cv, name, maxPx) {
   var sz = sizeCanvas(cv, maxPx || 2200);
   if (!sz) { return null; }
   var ctx = cv.getContext('2d');
+  if (!ctx) { return null; }
   var meta = SCENES[name](ctx, sz.w, sz.h);
   cv._rw = sz.cssW; cv._done = true;
   return meta;
@@ -2812,6 +2816,13 @@ if ('IntersectionObserver' in window) {
     });
   }, { rootMargin: '900px 0px' });
   document.querySelectorAll('canvas[data-scene]').forEach(function (cv) { canvasIO.observe(cv); });
+  var releaseIO = new IntersectionObserver(function (entries) {
+    entries.forEach(function (en) {
+      var cv = en.target;
+      if (!en.isIntersecting && cv._done) { cv.width = 0; cv.height = 0; cv._done = false; }
+    });
+  }, { rootMargin: (SMALL ? '1800px' : '3200px') + ' 0px' });
+  document.querySelectorAll('canvas[data-scene]').forEach(function (cv) { releaseIO.observe(cv); });
   var extraIO = new IntersectionObserver(function (entries) {
     entries.forEach(function (en) {
       var t = en.target;
@@ -2920,7 +2931,7 @@ SCENES.forester = function (ctx, w, h) {
   fogBank(ctx, r, { n: 26, x0: -w * 0.1, x1: w * 1.1, y0: h * 0.45, y1: h * 0.85, s0: w * 0.3, s1: w * 0.8, a: 0.2, rgb: '120,132,148' });
   ground(ctx, w, h, h * 0.82, r, { top: '#3e4752', bot: '#161b22' });
   var pl = { fx: 500, fy: 1540, px: w * 0.24, py: h * 0.9, s: h * 0.62 / 1600 };
-  ctx.drawImage(creatureLayer(w, h, pl, { eyes: 'off' }, { rgb: '44,52,62', a0: 0.72, a1: 0.9 }), 0, 0);
+  blit(ctx, creatureLayer(w, h, pl, { eyes: 'off' }, { rgb: '44,52,62', a0: 0.72, a1: 0.9 }));
   Krampus.eyesAt(ctx, pl, 'glow', 0.95, 1);
   Krampus.glow(ctx, pl, 1, undefined, 90);
   fogBank(ctx, r, { n: 14, x0: 0, x1: w * 0.5, y0: h * 0.55, y1: h * 0.95, s0: w * 0.2, s1: w * 0.5, a: 0.16, rgb: '130,140,155' });
@@ -3015,8 +3026,8 @@ var Viewer = (function () {
     contactShadow(g, pl, 0.6);
     post(g, w, h, { tint: '#2a3a55', tintA: 0.3, grain: 0.06 });
     var tint = { rgb: '26,32,40', a0: 0.04, a1: 0.5, y0: h * 0.1, y1: h };
-    var bc = L.body.getContext('2d'); bc.clearRect(0, 0, w, h); bc.drawImage(creatureLayer(w, h, pl, { part: 'body', eyes: 'glow' }, tint), 0, 0);
-    var hc = L.head.getContext('2d'); hc.clearRect(0, 0, w, h); hc.drawImage(creatureLayer(w, h, pl, { part: 'head', eyes: 'glow', eyeI: 1 }, tint), 0, 0);
+    var bc = L.body.getContext('2d'); bc.clearRect(0, 0, w, h); blit(bc, creatureLayer(w, h, pl, { part: 'body', eyes: 'glow' }, tint));
+    var hc = L.head.getContext('2d'); hc.clearRect(0, 0, w, h); blit(hc, creatureLayer(w, h, pl, { part: 'head', eyes: 'glow', eyeI: 1 }, tint));
     Krampus.glow(hc, pl, 0.9);
     var f = L.fore.getContext('2d'); f.clearRect(0, 0, w, h);
     for (i = 0; i < 5; i++) { deadSpruce(f, r() < 0.5 ? r(-w * 0.04, w * 0.14) : r(w * 0.86, w * 1.04), h * 1.02, h * r(0.8, 1.2), r, '#050608', { thick: 0.018 }); }
