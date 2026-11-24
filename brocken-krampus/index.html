@@ -518,6 +518,29 @@ main, footer.site { overflow-x: clip; }
 .attempts li::before { content: "Versuch " counter(att); font-family: var(--f-head); color: #c9a940; font-size: .9rem; letter-spacing: .06em; }
 .attempts b { font-family: var(--f-head); font-weight: 400; color: var(--bone); font-size: 1.08rem; }
 @media (max-width: 520px) { .attempts li, .rules li { grid-template-columns: 1fr; gap: .2rem; } }
+
+/* ---------- prepared images instead of live painting ---------- */
+.plate img.scene { display: block; width: 100%; max-width: 100%; height: auto; aspect-ratio: var(--ar, 4/5); object-fit: cover; background: #08090b; }
+.duo-card img.scene { width: 100%; height: auto; display: block; aspect-ratio: 4/5; object-fit: cover; background: #08090b; margin-bottom: .6rem; }
+.card-photo img.scene { width: 100%; height: auto; aspect-ratio: 4/5; display: block; object-fit: cover; background: #222; box-shadow: 0 4px 12px rgba(0,0,0,.4); transform: rotate(-1.2deg); }
+.gaze img { display: block; width: 100%; height: auto; aspect-ratio: 16/9; object-fit: cover; background: #000; }
+@media (max-width: 700px) { .gaze img { aspect-ratio: 4/5; } }
+.hero picture, #heroScene { position: absolute; inset: 0; width: 100%; height: 100%; display: block; object-fit: cover; }
+.viewer img { position: absolute; inset: -5%; width: 110%; height: 110%; max-width: none; display: block; object-fit: cover; will-change: transform; pointer-events: none; }
+.forest-layer { position: absolute; left: 0; right: 0; bottom: -40px; height: calc(100% + 40px); background-size: cover; background-position: center bottom; background-repeat: no-repeat; transform: translateY(var(--dy, 0px)); will-change: transform; }
+.lightbox img { display: block; max-width: 100%; max-height: calc(100vh - 160px); box-shadow: 0 0 120px #000; }
+.m3d-load { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); padding: .9rem 1.5rem; font-size: 1.05rem; background: rgba(43,63,21,.8); border-color: #7fae45; }
+
+/* phones: cheap effects only */
+@media (pointer: coarse), (max-width: 760px) {
+  .reveal { transition: opacity .9s ease, transform .9s ease; }
+  .reveal.pre, .chapter-head.reveal.pre { opacity: .2; transform: translateY(18px); filter: none; }
+  .fogline::before, .fogline::after { animation: none; }
+  .forest-layer, .viewer img, #heroScene { will-change: auto; }
+  .topbar.solid { -webkit-backdrop-filter: none; backdrop-filter: none; background: rgba(8,8,9,.95); }
+  .hero-copy > * { animation-name: rise-lite; }
+}
+@keyframes rise-lite { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
 </style>
 </head> <!--repo-only-->
 <body> <!--repo-only-->
@@ -590,7 +613,7 @@ main, footer.site { overflow-x: clip; }
 <main>
 <!-- ============ START ============ -->
 <section class="hero" id="start" aria-label="Die Begegnung">
-  <canvas id="heroScene" aria-hidden="true"></canvas>
+  <picture><source media="(max-aspect-ratio: 10/11)" srcset="img/hero-p.webp"><img id="heroScene" src="img/hero-l.webp" alt="" decoding="async" fetchpriority="high"></picture>
   <canvas id="heroFx" aria-hidden="true"></canvas>
   <div class="intro-veil" id="veil"><span>Der Nebel zieht auf …</span></div>
   <div class="hero-copy">
@@ -604,7 +627,7 @@ main, footer.site { overflow-x: clip; }
   </div>
 </section>
 
-<div class="divider" aria-hidden="true"><canvas data-forest="0" data-depth="-0.06"></canvas><canvas data-forest="1" data-depth="-0.12"></canvas><canvas data-forest="2" data-depth="-0.22"></canvas><div class="fogline"></div></div>
+<div class="divider" aria-hidden="true"><div class="forest-layer" data-depth="-0.06" style="background-image:url(img/forest-0.webp)"></div><div class="forest-layer" data-depth="-0.12" style="background-image:url(img/forest-1.webp)"></div><div class="forest-layer" data-depth="-0.22" style="background-image:url(img/forest-2.webp)"></div><div class="fogline"></div></div>
 
 <!-- ============ I · DIE ZWEI ============ -->
 <section class="chapter wrap" id="zwei" aria-labelledby="h-zwei">
@@ -623,7 +646,7 @@ main, footer.site { overflow-x: clip; }
 
   <div class="duo reveal">
     <a class="duo-card" href="#monster" data-jump="monster">
-      <canvas data-scene="face" style="--ar: 4/5" role="img" aria-label="Das Gesicht des Schellbocks"></canvas>
+      <img class="scene" data-scene="face" src="img/face.webp" style="--ar: 4/5" alt="Das Gesicht des Schellbocks" loading="lazy" decoding="async">
       <span class="duo-kicker">Das Monster</span>
       <span class="duo-name">Der Schellbock</span>
       <span class="duo-text">Uralt, gehörnt, behaart. Klingt beim Gehen wie ein Almabtrieb in der Unterwelt.</span>
@@ -634,7 +657,7 @@ main, footer.site { overflow-x: clip; }
       <span class="duo-text">Die Reisiggurke. Sauer. Heilig. Angeleckt.</span>
     </a>
     <a class="duo-card" href="#hexe" data-jump="hexe">
-      <div class="ph-wrap"><canvas data-scene="witch" style="--ar: 4/5" role="img" aria-label="Scharlotta: rotes Haar, Hexenhut, Gesicht im Schatten"></canvas></div>
+      <div class="ph-wrap"><img class="scene" data-scene="witch" src="img/witch.webp" style="--ar: 4/5" alt="Scharlotta: rotes Haar, Hexenhut, Gesicht im Schatten" loading="lazy" decoding="async"></div>
       <span class="duo-kicker">Die Hexe</span>
       <span class="duo-name">Scharlotta</span>
       <span class="duo-text">Feuerrot, gut gelaunt, unberechenbar. Hat den Nebel nach eigener Aussage „nur ausgeliehen“.</span>
@@ -642,7 +665,7 @@ main, footer.site { overflow-x: clip; }
   </div>
 </section>
 
-<div class="divider" aria-hidden="true"><canvas data-forest="0" data-depth="-0.06"></canvas><canvas data-forest="1" data-depth="-0.12"></canvas><canvas data-forest="2" data-depth="-0.22"></canvas><div class="fogline"></div></div>
+<div class="divider" aria-hidden="true"><div class="forest-layer" data-depth="-0.06" style="background-image:url(img/forest-0.webp)"></div><div class="forest-layer" data-depth="-0.12" style="background-image:url(img/forest-1.webp)"></div><div class="forest-layer" data-depth="-0.22" style="background-image:url(img/forest-2.webp)"></div><div class="fogline"></div></div>
 
 <!-- ============ II · DER BERG ============ -->
 <section class="chapter wrap" id="berg" aria-labelledby="h-berg">
@@ -657,6 +680,7 @@ main, footer.site { overflow-x: clip; }
       <div class="m3d" id="m3d">
         <canvas id="m3dCanvas" role="img" aria-label="3D-Modell des Brockens mit den Orten der Sichtungen"></canvas>
         <div class="m3d-loading" id="m3dLoading">Der Berg wird aus dem Nebel geholt …</div>
+        <button class="icon-btn m3d-load" id="m3dLoad" type="button" hidden>3D-Berg laden</button>
         <button class="icon-btn m3d-activate" id="m3dActivate" type="button" hidden>Berg erkunden</button>
         <div class="m3d-info" id="m3dInfo" hidden>
           <span class="tafel" id="m3dKicker"></span>
@@ -681,7 +705,7 @@ main, footer.site { overflow-x: clip; }
   <p class="berg-legend reveal"><span class="dot red"></span>Der Schellbock allein <span class="dot green"></span>Beide zusammen <span class="dot ochre"></span>Forstmeister Claas</p>
 </section>
 
-<div class="divider" aria-hidden="true"><canvas data-forest="0" data-depth="-0.06"></canvas><canvas data-forest="1" data-depth="-0.12"></canvas><canvas data-forest="2" data-depth="-0.22"></canvas><div class="fogline"></div></div>
+<div class="divider" aria-hidden="true"><div class="forest-layer" data-depth="-0.06" style="background-image:url(img/forest-0.webp)"></div><div class="forest-layer" data-depth="-0.12" style="background-image:url(img/forest-1.webp)"></div><div class="forest-layer" data-depth="-0.22" style="background-image:url(img/forest-2.webp)"></div><div class="fogline"></div></div>
 
 <!-- ============ III · DAS MONSTER ============ -->
 <section class="chapter wrap" id="monster" aria-labelledby="h-monster">
@@ -719,10 +743,10 @@ main, footer.site { overflow-x: clip; }
 
   <figure class="viewer-wrap reveal">
     <div class="viewer" id="viewer" tabindex="0" aria-label="Interaktive Ansicht des Schellbocks. Bewege Maus oder Finger, um ihn aus anderen Blickwinkeln zu sehen.">
-      <canvas data-l="bg" aria-hidden="true"></canvas>
-      <canvas data-l="body" aria-hidden="true"></canvas>
-      <canvas data-l="head" aria-hidden="true"></canvas>
-      <canvas data-l="fore" aria-hidden="true"></canvas>
+      <img data-l="bg" alt="" decoding="async">
+      <img data-l="body" alt="" decoding="async">
+      <img data-l="head" alt="" decoding="async">
+      <img data-l="fore" alt="" decoding="async">
       <canvas data-l="lamp" aria-hidden="true"></canvas>
       <span class="viewer-hint">Bewege die Laterne. Er folgt ihr mit den Augen.</span>
     </div>
@@ -742,7 +766,7 @@ main, footer.site { overflow-x: clip; }
   <div class="plates">
     <div class="plate-row feature">
       <figure class="plate reveal">
-        <div class="frame" tabindex="0" role="button" aria-label="Tafel I vergrößern"><canvas data-scene="full" style="--ar: 4/5" role="img" aria-label="Der Schellbock in voller Gestalt im Nebel, mit Widderhörnern, Schellen, Ketten und Birkenrute."></canvas></div>
+        <div class="frame" tabindex="0" role="button" aria-label="Tafel I vergrößern"><img class="scene" data-scene="full" src="img/full.webp" style="--ar: 4/5" alt="Der Schellbock in voller Gestalt im Nebel, mit Widderhörnern, Schellen, Ketten und Birkenrute." loading="lazy" decoding="async"></div>
         <figcaption><span class="tafel">TAFEL I</span><span class="ptitle">Die Gestalt</span><span class="pnote">Rekonstruktion nach Zeugenaussagen, Eckerloch. Geschätzte Höhe mit Hörnern: über zwei Meter fünfzig.</span></figcaption>
       </figure>
       <dl class="traits reveal">
@@ -758,18 +782,18 @@ main, footer.site { overflow-x: clip; }
 
     <div class="plate-row two">
       <figure class="plate reveal">
-        <div class="frame" tabindex="0" role="button" aria-label="Tafel II vergrößern"><canvas data-scene="face" style="--ar: 4/5" role="img" aria-label="Nahaufnahme des dämonischen Gesichts mit glimmenden Augen, Reißzähnen und heraushängender Zunge."></canvas></div>
+        <div class="frame" tabindex="0" role="button" aria-label="Tafel II vergrößern"><img class="scene" data-scene="face" src="img/face.webp" style="--ar: 4/5" alt="Nahaufnahme des dämonischen Gesichts mit glimmenden Augen, Reißzähnen und heraushängender Zunge." loading="lazy" decoding="async"></div>
         <figcaption><span class="tafel">TAFEL II</span><span class="ptitle">Das Antlitz</span><span class="pnote">Tierhaft und langgezogen, mit schwerem Brauenwulst. Die Augen glimmen wie Kohlen unter der Asche.</span></figcaption>
       </figure>
       <figure class="plate reveal">
-        <div class="frame" tabindex="0" role="button" aria-label="Tafel III vergrößern"><canvas data-scene="horns" style="--ar: 4/5" role="img" aria-label="Studie des linken Widderhorns und der Fangzähne."></canvas></div>
+        <div class="frame" tabindex="0" role="button" aria-label="Tafel III vergrößern"><img class="scene" data-scene="horns" src="img/horns.webp" style="--ar: 4/5" alt="Studie des linken Widderhorns und der Fangzähne." loading="lazy" decoding="async"></div>
         <figcaption><span class="tafel">TAFEL III</span><span class="ptitle">Hörner und Zähne</span><span class="pnote">Glasplatte, um 1910. Die Hörner sind geriffelt wie altes Holz, die Fangzähne ragen über die Lippen.</span></figcaption>
       </figure>
     </div>
 
     <div class="plate-row feature flip">
       <figure class="plate reveal">
-        <div class="frame" tabindex="0" role="button" aria-label="Tafel IV vergrößern"><canvas data-scene="hands" style="--ar: 3/2" role="img" aria-label="Die rechte Klauenhand mit langen schwarzen Krallen und eiserner Fessel mit Kette."></canvas></div>
+        <div class="frame" tabindex="0" role="button" aria-label="Tafel IV vergrößern"><img class="scene" data-scene="hands" src="img/hands.webp" style="--ar: 3/2" alt="Die rechte Klauenhand mit langen schwarzen Krallen und eiserner Fessel mit Kette." loading="lazy" decoding="async"></div>
         <figcaption><span class="tafel">TAFEL IV</span><span class="ptitle">Die Hände</span><span class="pnote">Vier Finger und ein Daumen, jeder mit einer schwarzen, gebogenen Kralle. Am Handgelenk die alte Fessel.</span></figcaption>
       </figure>
       <div class="prose reveal">
@@ -780,18 +804,18 @@ main, footer.site { overflow-x: clip; }
 
     <div class="plate-row two">
       <figure class="plate reveal">
-        <div class="frame" tabindex="0" role="button" aria-label="Tafel V vergrößern"><canvas data-scene="trees" style="--ar: 3/2" role="img" aria-label="Infrarotbild einer Wildkamera: die gehörnte Gestalt zwischen kahlen Fichten, die Augen leuchten weiß."></canvas></div>
+        <div class="frame" tabindex="0" role="button" aria-label="Tafel V vergrößern"><img class="scene" data-scene="trees" src="img/trees.webp" style="--ar: 3/2" alt="Infrarotbild einer Wildkamera: die gehörnte Gestalt zwischen kahlen Fichten, die Augen leuchten weiß." loading="lazy" decoding="async"></div>
         <figcaption><span class="tafel">TAFEL V</span><span class="ptitle">Zwischen den Fichten</span><span class="pnote">Wildkamera von Forstmeister Claas, Revier Schierke, 6. Dezember 2011, 03:12 Uhr. Das nächste Bild der Serie zeigt nur noch eine Gurke im Schnee.</span></figcaption>
       </figure>
       <figure class="plate reveal">
-        <div class="frame" tabindex="0" role="button" aria-label="Tafel VI vergrößern"><canvas data-scene="summit" style="--ar: 3/2" role="img" aria-label="Altes Negativ: die Gestalt steht auf den Granitklippen des Gipfels im dichten Nebel."></canvas></div>
+        <div class="frame" tabindex="0" role="button" aria-label="Tafel VI vergrößern"><img class="scene" data-scene="summit" src="img/summit.webp" style="--ar: 3/2" alt="Altes Negativ: die Gestalt steht auf den Granitklippen des Gipfels im dichten Nebel." loading="lazy" decoding="async"></div>
         <figcaption><span class="tafel">TAFEL VI</span><span class="ptitle">Am Gipfel</span><span class="pnote">Negativ, Februar 1937, aufgenommen nahe der Teufelskanzel. Der Fotograf gab an, allein gewesen zu sein. Auf dem Abzug ist am Rand eine rote Haarsträhne zu sehen. <button type="button" class="hidden-gurke" data-g="2" aria-label="Versteckte Gurke"><svg viewBox="0 0 200 96" aria-hidden="true"><use href="#gurke"/></svg></button></span></figcaption>
       </figure>
     </div>
   </div>
 </section>
 
-<div class="divider" aria-hidden="true"><canvas data-forest="0" data-depth="-0.06"></canvas><canvas data-forest="1" data-depth="-0.12"></canvas><canvas data-forest="2" data-depth="-0.22"></canvas><div class="fogline"></div></div>
+<div class="divider" aria-hidden="true"><div class="forest-layer" data-depth="-0.06" style="background-image:url(img/forest-0.webp)"></div><div class="forest-layer" data-depth="-0.12" style="background-image:url(img/forest-1.webp)"></div><div class="forest-layer" data-depth="-0.22" style="background-image:url(img/forest-2.webp)"></div><div class="fogline"></div></div>
 
 <!-- ============ III · DIE HEXE ============ -->
 <section class="chapter wrap" id="hexe" aria-labelledby="h-hexe">
@@ -805,7 +829,7 @@ main, footer.site { overflow-x: clip; }
   <div class="plate-row feature witch-row">
     <figure class="plate reveal">
       <div class="frame tilt" tabindex="0" role="button" aria-label="Scharlotta">
-        <div class="ph-wrap"><canvas data-scene="witch" style="--ar: 4/5" role="img" aria-label="Scharlotta vor dem Mond, mit rotem Zopf und Hexenhut"></canvas></div>
+        <div class="ph-wrap"><img class="scene" data-scene="witch" src="img/witch.webp" style="--ar: 4/5" alt="Scharlotta vor dem Mond, mit rotem Zopf und Hexenhut" loading="lazy" decoding="async"></div>
       </div>
       <figcaption><span class="tafel">TAFEL VII</span><span class="ptitle">Scharlotta</span><span class="pnote">Nachgezeichnet nach Zeugenaussagen: roter Zopf, silberne Ohrringe, Wanderjacke mit pinkem Kragen. Ihr Gesicht hat noch niemand scharf erwischt. Sie lacht immer im falschen Moment.</span></figcaption>
     </figure>
@@ -837,7 +861,7 @@ main, footer.site { overflow-x: clip; }
   </div>
 </section>
 
-<div class="divider" aria-hidden="true"><canvas data-forest="0" data-depth="-0.06"></canvas><canvas data-forest="1" data-depth="-0.12"></canvas><canvas data-forest="2" data-depth="-0.22"></canvas><div class="fogline"></div></div>
+<div class="divider" aria-hidden="true"><div class="forest-layer" data-depth="-0.06" style="background-image:url(img/forest-0.webp)"></div><div class="forest-layer" data-depth="-0.12" style="background-image:url(img/forest-1.webp)"></div><div class="forest-layer" data-depth="-0.22" style="background-image:url(img/forest-2.webp)"></div><div class="fogline"></div></div>
 
 <!-- ============ V · DER FORSTMEISTER ============ -->
 <section class="chapter wrap" id="forstmeister" aria-labelledby="h-forstmeister">
@@ -850,7 +874,7 @@ main, footer.site { overflow-x: clip; }
 
   <div class="plate-row feature witch-row">
     <figure class="plate reveal">
-      <div class="frame tilt" tabindex="0" role="button" aria-label="Tafel VIII vergrößern"><canvas data-scene="forester" style="--ar: 4/5" role="img" aria-label="Forstmeister Claas mit Försterhut, Laterne und Netz im Nebel. Hinter ihm, unbemerkt, glühen die Augen des Schellbocks."></canvas></div>
+      <div class="frame tilt" tabindex="0" role="button" aria-label="Tafel VIII vergrößern"><img class="scene" data-scene="forester" src="img/forester.webp" style="--ar: 4/5" alt="Forstmeister Claas mit Försterhut, Laterne und Netz im Nebel. Hinter ihm, unbemerkt, glühen die Augen des Schellbocks." loading="lazy" decoding="async"></div>
       <figcaption><span class="tafel">TAFEL VIII</span><span class="ptitle">Der Forstmeister</span><span class="pnote">Aufnahme vom Ansitz am Eckerloch, Advent 2019. Claas schaut nach rechts. Er hätte nach links schauen sollen.</span></figcaption>
     </figure>
     <div class="prose reveal">
@@ -886,7 +910,7 @@ main, footer.site { overflow-x: clip; }
   </div>
 </section>
 
-<div class="divider" aria-hidden="true"><canvas data-forest="0" data-depth="-0.06"></canvas><canvas data-forest="1" data-depth="-0.12"></canvas><canvas data-forest="2" data-depth="-0.22"></canvas><div class="fogline"></div></div>
+<div class="divider" aria-hidden="true"><div class="forest-layer" data-depth="-0.06" style="background-image:url(img/forest-0.webp)"></div><div class="forest-layer" data-depth="-0.12" style="background-image:url(img/forest-1.webp)"></div><div class="forest-layer" data-depth="-0.22" style="background-image:url(img/forest-2.webp)"></div><div class="fogline"></div></div>
 
 <!-- ============ IV · DIE REISIGGURKE ============ -->
 <section class="chapter wrap" id="gurke" aria-labelledby="h-gurke">
@@ -954,7 +978,7 @@ main, footer.site { overflow-x: clip; }
   </div>
 </section>
 
-<div class="divider" aria-hidden="true"><canvas data-forest="0" data-depth="-0.06"></canvas><canvas data-forest="1" data-depth="-0.12"></canvas><canvas data-forest="2" data-depth="-0.22"></canvas><div class="fogline"></div></div>
+<div class="divider" aria-hidden="true"><div class="forest-layer" data-depth="-0.06" style="background-image:url(img/forest-0.webp)"></div><div class="forest-layer" data-depth="-0.12" style="background-image:url(img/forest-1.webp)"></div><div class="forest-layer" data-depth="-0.22" style="background-image:url(img/forest-2.webp)"></div><div class="fogline"></div></div>
 
 <!-- ============ V · DIE GEMEINSAME LEGENDE ============ -->
 <section class="chapter wrap" id="legende" aria-labelledby="h-legende">
@@ -986,7 +1010,7 @@ main, footer.site { overflow-x: clip; }
   </div>
 </section>
 
-<div class="divider" aria-hidden="true"><canvas data-forest="0" data-depth="-0.06"></canvas><canvas data-forest="1" data-depth="-0.12"></canvas><canvas data-forest="2" data-depth="-0.22"></canvas><div class="fogline"></div></div>
+<div class="divider" aria-hidden="true"><div class="forest-layer" data-depth="-0.06" style="background-image:url(img/forest-0.webp)"></div><div class="forest-layer" data-depth="-0.12" style="background-image:url(img/forest-1.webp)"></div><div class="forest-layer" data-depth="-0.22" style="background-image:url(img/forest-2.webp)"></div><div class="fogline"></div></div>
 
 <!-- ============ VI · BEGEGNUNGEN ============ -->
 <section class="chapter wrap" id="begegnungen" aria-labelledby="h-begegnungen">
@@ -1199,7 +1223,7 @@ main, footer.site { overflow-x: clip; }
   </div>
 </section>
 
-<div class="divider" aria-hidden="true"><canvas data-forest="0" data-depth="-0.06"></canvas><canvas data-forest="1" data-depth="-0.12"></canvas><canvas data-forest="2" data-depth="-0.22"></canvas><div class="fogline"></div></div>
+<div class="divider" aria-hidden="true"><div class="forest-layer" data-depth="-0.06" style="background-image:url(img/forest-0.webp)"></div><div class="forest-layer" data-depth="-0.12" style="background-image:url(img/forest-1.webp)"></div><div class="forest-layer" data-depth="-0.22" style="background-image:url(img/forest-2.webp)"></div><div class="fogline"></div></div>
 
 <!-- ============ VII · STECKBRIEFE ============ -->
 <section class="chapter wrap" id="steckbrief" aria-labelledby="h-steckbrief">
@@ -1214,7 +1238,7 @@ main, footer.site { overflow-x: clip; }
     <div class="card reveal">
       <span class="stamp">UNGELÖST</span>
       <div class="card-photo">
-        <canvas data-scene="portrait" role="img" aria-label="Phantombild des Schellbocks"></canvas>
+        <img class="scene" data-scene="portrait" src="img/portrait.webp" alt="Phantombild des Schellbocks" loading="lazy" decoding="async">
         <small>Phantombild nach Aussage BK-2019-12</small>
       </div>
       <div class="card-body">
@@ -1239,7 +1263,7 @@ main, footer.site { overflow-x: clip; }
       <span class="stamp">GEFÄHRLICH GUT GELAUNT</span>
       <button type="button" class="hidden-gurke corner" data-g="4" aria-label="Versteckte Gurke"><svg viewBox="0 0 200 96" aria-hidden="true"><use href="#gurke"/></svg></button>
       <div class="card-photo">
-        <div class="ph-wrap"><canvas data-scene="witch" role="img" aria-label="Phantombild von Scharlotta"></canvas></div>
+        <div class="ph-wrap"><img class="scene" data-scene="witch" src="img/witch.webp" alt="Phantombild von Scharlotta" loading="lazy" decoding="async"></div>
         <small>Phantombild nach Aussage BK-2021-11</small>
       </div>
       <div class="card-body">
@@ -1263,7 +1287,7 @@ main, footer.site { overflow-x: clip; }
     <div class="card reveal">
       <span class="stamp">GIBT NICHT AUF</span>
       <div class="card-photo">
-        <canvas data-scene="forester" role="img" aria-label="Forstmeister Claas mit Laterne und Netz"></canvas>
+        <img class="scene" data-scene="forester" src="img/forester.webp" alt="Forstmeister Claas mit Laterne und Netz" loading="lazy" decoding="async">
         <small>Dienstfoto, Revier Schierke. Im Hintergrund: unbekannt</small>
       </div>
       <div class="card-body">
@@ -1321,7 +1345,7 @@ main, footer.site { overflow-x: clip; }
     </div>
   </div>
   <div class="gaze">
-    <canvas data-scene="gaze" role="img" aria-label="Das Gesicht des Schellbocks blickt aus dem dunklen Nebel, die Augen glimmen."></canvas>
+    <picture><source media="(max-width: 700px)" srcset="img/gaze-p.webp"><img class="scene" data-scene="gaze" src="img/gaze.webp" alt="Das Gesicht des Schellbocks blickt aus dem dunklen Nebel, die Augen glimmen." loading="lazy" decoding="async"></picture>
     <div class="fogline" aria-hidden="true"></div>
   </div>
 </section>
@@ -1367,7 +1391,7 @@ main, footer.site { overflow-x: clip; }
 
 <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Tafel in groß">
   <button class="icon-btn close" id="lbClose" type="button">Schließen</button>
-  <div><canvas id="lbCanvas"></canvas><div class="cap" id="lbCap"></div></div>
+  <div><img id="lbCanvas" alt=""><div class="cap" id="lbCap"></div></div>
 </div>
 
 <noscript><p style="padding:2rem;text-align:center">Diese Seite braucht JavaScript, um den Nebel und die Gestalt darin zu zeichnen.</p></noscript>
@@ -2468,6 +2492,7 @@ var SCENES = {
    RENDERING PIPELINE
    ===================================================================== */
 var SMALL = (window.matchMedia && window.matchMedia('(pointer: coarse)').matches) || window.innerWidth < 760;
+var META = {"hero":{"hero-l":{"w":1920,"h":1200,"place":{"fx":500,"fy":1540,"px":960,"py":1134,"s":0.54},"light":{"x":1536,"y":443.1637870792215},"moon":{"x":1459.2,"y":204.00000000000003,"r":48}},"hero-p":{"w":900,"h":1950,"place":{"fx":500,"fy":1540,"px":450,"py":1755,"s":0.73125},"light":{"x":756,"y":649.1363749275421},"moon":{"x":702,"y":253.5,"r":45}}},"viewer":{"l":{"neckY":0.4465,"eyeY":0.29635},"p":{"neckY":0.55225,"eyeY":0.434275}}};
 var DPR = Math.min(window.devicePixelRatio || 1, SMALL ? 1.5 : 2);
 function sizeCanvas(cv, maxPx, dprCap) {
   var rect = cv.getBoundingClientRect(), d = Math.min(DPR, dprCap || 2);
@@ -2506,7 +2531,7 @@ var Hero = {
   setup: function () {
     var sz = sizeCanvas(fxCv, 1800, 1.5); if (!sz) { return; }
     this.w = sz.w; this.h = sz.h; this.ctx = fxCv.getContext('2d');
-    this.k = heroCv.width ? sz.w / heroCv.width : 1;
+    this.k = 1;
     var r = seeded(99), n = clamp(Math.round(sz.w * sz.h / 6500 / (DPR > 1.4 ? 2 : 1)), 60, 240);
     this.parts = [];
     for (var i = 0; i < n; i++) { var z = r(0.25, 1); this.parts.push({ x: r(0, sz.w), y: r(0, sz.h), z: z, r: (0.6 + z * 1.8) * Math.max(1, sz.w / 1400), ph: r(0, TAU) }); }
@@ -2582,8 +2607,15 @@ var Hero = {
   }
 };
 function renderHero() {
-  heroMeta = render(heroCv, 'hero', 2400);
   Hero.setup();
+  if (!fxCv.width) { return; }
+  var key = window.matchMedia('(max-aspect-ratio: 10/11)').matches ? 'hero-p' : 'hero-l', M = META.hero[key];
+  var rc = fxCv.getBoundingClientRect(), k = fxCv.width / rc.width;
+  var sc = Math.max(rc.width / M.w, rc.height / M.h), ox = (rc.width - M.w * sc) / 2, oy = (rc.height - M.h * sc) / 2;
+  var P = function (x, y) { return { x: (ox + x * sc) * k, y: (oy + y * sc) * k }; };
+  var pp = P(M.place.px, M.place.py), mo = P(M.moon.x, M.moon.y);
+  mo.r = M.moon.r * sc * k;
+  heroMeta = { place: { fx: M.place.fx, fy: M.place.fy, px: pp.x, py: pp.y, s: M.place.s * sc * k }, light: P(M.light.x, M.light.y), moon: mo };
   if (!Hero.t0) { Hero.t0 = performance.now(); }
   Hero.loop();
 }
@@ -2756,16 +2788,16 @@ function openLightbox(cv) {
   var ar = (getComputedStyle(cv).getPropertyValue('--ar') || '4/5').split('/').map(parseFloat), ratio = ar[0] / ar[1];
   var maxW = window.innerWidth - 32, maxH = window.innerHeight - 160, w = maxW, h = w / ratio;
   if (h > maxH) { h = maxH; w = h * ratio; }
-  lbCv.style.width = Math.round(w) + 'px'; lbCv.style.height = Math.round(h) + 'px';
+  lbCv.style.width = Math.round(w) + 'px'; lbCv.style.height = 'auto';
   var fig = cv.closest('figure'); lbCap.textContent = fig ? fig.querySelector('.tafel').textContent + ' · ' + fig.querySelector('.ptitle').textContent : '';
   lb.classList.add('open'); document.body.style.overflow = 'hidden';
   document.getElementById('lbClose').focus();
   var name = cv.getAttribute('data-scene');
-  enqueue(function () { render(lbCv, name, 2600); });
+  lbCv.src = cv.currentSrc || cv.src; lbCv.alt = cv.alt || '';
 }
 function closeLightbox() { lb.classList.remove('open'); document.body.style.overflow = ''; if (lastFocus) { lastFocus.focus(); } }
 document.querySelectorAll('.plate .frame').forEach(function (fr) {
-  var cv = fr.querySelector('canvas');
+  var cv = fr.querySelector('img.scene');
   fr.addEventListener('click', function () { openLightbox(cv); });
   fr.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openLightbox(cv); } });
 });
@@ -2839,9 +2871,9 @@ if ('IntersectionObserver' in window) {
     var revIO = new IntersectionObserver(function (entries) {
       entries.forEach(function (en) { if (en.isIntersecting) { en.target.classList.remove('pre'); revIO.unobserve(en.target); } });
     }, { rootMargin: '0px 0px -8% 0px' });
-    document.querySelectorAll('.reveal').forEach(function (el) {
-      if (el.getBoundingClientRect().top > window.innerHeight) { el.classList.add('pre'); revIO.observe(el); }
-    });
+    var revs = Array.prototype.slice.call(document.querySelectorAll('.reveal')), vhNow = window.innerHeight;
+    var below = revs.filter(function (el) { return el.getBoundingClientRect().top > vhNow; });
+    below.forEach(function (el) { el.classList.add('pre'); revIO.observe(el); });
   }
 } else {
   document.querySelectorAll('canvas[data-scene]').forEach(function (cv) { enqueue(function () { render(cv, cv.getAttribute('data-scene')); }); });
@@ -3008,36 +3040,16 @@ var Viewer = (function () {
   var root = document.getElementById('viewer');
   if (!root) { return null; }
   var L = {};
-  root.querySelectorAll('canvas').forEach(function (c) { L[c.getAttribute('data-l')] = c; });
+  root.querySelectorAll('[data-l]').forEach(function (c) { L[c.getAttribute('data-l')] = c; });
   var st = { x: 0, y: 0, tx: 0, ty: 0, lx: 0.5, ly: 0.3, tlx: 0.5, tly: 0.3, lamp: true, built: false, running: false };
   function build() {
-    var szb = sizeCanvas(L.bg, 1900);
-    if (!szb) { return; }
-    var w = szb.w, h = szb.h, r = seeded(311), portrait = h > w, i;
-    ['body', 'head', 'fore'].forEach(function (k) { L[k].width = w; L[k].height = h; });
-    var g = L.bg.getContext('2d');
-    var gr = g.createLinearGradient(0, 0, 0, h); gr.addColorStop(0, '#06080c'); gr.addColorStop(0.65, '#1c232c'); gr.addColorStop(1, '#10141a');
-    g.fillStyle = gr; g.fillRect(0, 0, w, h);
-    var gl = g.createRadialGradient(w * 0.5, h * 0.4, 0, w * 0.5, h * 0.4, w * 0.6); gl.addColorStop(0, 'rgba(120,135,152,.22)'); gl.addColorStop(1, 'rgba(0,0,0,0)');
-    g.fillStyle = gl; g.fillRect(0, 0, w, h);
-    fogBank(g, r, { n: 24, x0: -w * 0.1, x1: w * 1.1, y0: h * 0.3, y1: h * 0.8, s0: w * 0.3, s1: w * 0.8, a: 0.16, rgb: '120,132,148' });
-    for (i = 0; i < 26; i++) { deadSpruce(g, r(0, w), h * r(0.74, 0.8), h * r(0.3, 0.7), r, 'rgba(22,28,36,' + r(0.5, 0.95).toFixed(2) + ')', { bare: 0.85 }); }
-    ground(g, w, h, h * 0.8, r, { top: '#3c4550', bot: '#141920' });
-    var s = portrait ? Math.min(h * 0.66 / 1600, w * 0.92 / 840) : h * 0.84 / 1600;
-    var pl = { fx: 500, fy: 1540, px: w * 0.5, py: h * 0.94, s: s };
-    contactShadow(g, pl, 0.6);
-    post(g, w, h, { tint: '#2a3a55', tintA: 0.3, grain: 0.06 });
-    var tint = { rgb: '26,32,40', a0: 0.04, a1: 0.5, y0: h * 0.1, y1: h };
-    var bc = L.body.getContext('2d'); bc.clearRect(0, 0, w, h); blit(bc, creatureLayer(w, h, pl, { part: 'body', eyes: 'glow' }, tint));
-    var hc = L.head.getContext('2d'); hc.clearRect(0, 0, w, h); blit(hc, creatureLayer(w, h, pl, { part: 'head', eyes: 'glow', eyeI: 1 }, tint));
-    Krampus.glow(hc, pl, 0.9);
-    var f = L.fore.getContext('2d'); f.clearRect(0, 0, w, h);
-    for (i = 0; i < 5; i++) { deadSpruce(f, r() < 0.5 ? r(-w * 0.04, w * 0.14) : r(w * 0.86, w * 1.04), h * 1.02, h * r(0.8, 1.2), r, '#050608', { thick: 0.018 }); }
-    fogBank(f, r, { n: 26, x0: -w * 0.1, x1: w * 1.1, y0: h * 0.82, y1: h * 1.05, s0: w * 0.3, s1: w * 0.7, a: 0.26, rgb: '140,150,164' });
-    var neckY = (pl.py + (600 - 1540) * s) / h * 100;
-    L.head.style.transformOrigin = '50% ' + neckY.toFixed(1) + '%';
-    st.eyeY = -0.05 + ((pl.py + (314 - 1540) * s) / h) * 1.1;
-    var szl = sizeCanvas(L.lamp, 1400, 1.5); st.lw = szl.w; st.lh = szl.h;
+    var rc = root.getBoundingClientRect(), v = rc.height > rc.width ? 'p' : 'l', m = META.viewer[v];
+    ['bg', 'body', 'head', 'fore'].forEach(function (k) { var src = 'img/viewer-' + v + '-' + k + '.webp'; if (L[k].getAttribute('src') !== src) { L[k].src = src; } });
+    L.head.style.transformOrigin = '50% ' + (m.neckY * 100).toFixed(1) + '%';
+    st.eyeY = -0.05 + m.eyeY * 1.1;
+    var szl = sizeCanvas(L.lamp, 1400, 1.5);
+    if (!szl) { return; }
+    st.lw = szl.w; st.lh = szl.h;
     if (!st.touched) { st.lx = st.tlx = 0.5; st.ly = st.tly = st.eyeY + 0.08; }
     st.built = true; paint();
   }
@@ -3192,7 +3204,7 @@ function pickleRain(n) {
   var moonHits = 0;
   document.getElementById('start').addEventListener('click', function (e) {
     if (!heroMeta || !heroMeta.moon) { return; }
-    var rc = heroCv.getBoundingClientRect(), k = heroCv.width / rc.width;
+    var rc = fxCv.getBoundingClientRect(), k = fxCv.width / rc.width;
     var x = (e.clientX - rc.left) * k, y = (e.clientY - rc.top) * k, M = heroMeta.moon;
     if (Math.hypot(x - M.x, y - M.y) < M.r * 2.5) { moonHits++; if (moonHits >= 3) { moonHits = 0; Hero.flyNow = true; } }
   });
@@ -3275,9 +3287,7 @@ var Brocken3D = (function () {
     sp.scale.set(6, 6, 1); return sp;
   }
   function monsterSprite() {
-    var c = document.createElement('canvas'); c.width = 320; c.height = 512; var g = c.getContext('2d');
-    var s = 0.3; g.translate(160 - 500 * s, 500 - 1545 * s); g.scale(s, s); Krampus.draw(g, s, { eyes: 'glow', eyeI: 1 });
-    var sp = new THREE.Sprite(new THREE.SpriteMaterial({ map: new THREE.CanvasTexture(c), transparent: true }));
+    var sp = new THREE.Sprite(new THREE.SpriteMaterial({ map: new THREE.TextureLoader().load('img/sprite-monster.webp'), transparent: true }));
     sp.scale.set(5.5, 8.8, 1); return sp;
   }
   function witchTex() {
@@ -3467,7 +3477,10 @@ var Brocken3D = (function () {
       catch (err) { console.error('3D-Berg fehlgeschlagen', err); loadingEl.textContent = 'Dein Gerät kann den 3D-Berg nicht darstellen. Die Karte darunter zeigt alle Orte.'; }
     }).catch(function (err) { console.error(err); loadingEl.textContent = '3D konnte nicht geladen werden. Die Karte darunter zeigt alle Orte.'; });
   }
-  return { el: wrap, setVisible: function (v) { visible = v; if (v) { start(); } } };
+  var loadBtn = document.getElementById('m3dLoad');
+  if (SMALL) { loadingEl.textContent = 'Der 3D-Berg wird erst auf Wunsch geladen, damit die Seite schnell bleibt.'; loadBtn.hidden = false; }
+  loadBtn.addEventListener('click', function () { loadBtn.hidden = true; loadingEl.textContent = 'Der Berg wird aus dem Nebel geholt …'; visible = true; start(); });
+  return { el: wrap, setVisible: function (v) { visible = v; if (v && (!SMALL || started)) { start(); } } };
 })();
 
 var Pickle3D = (function () {
@@ -3538,9 +3551,10 @@ var Pickle3D = (function () {
       } catch (err) { console.error('3D-Gurke fehlgeschlagen', err); }
     }).catch(function (err) { console.error(err); });
   }
-  return { el: stage, setVisible: function (v) { visible = v; if (v) { start(); } } };
+  return { el: stage, start: function () { visible = true; start(); }, setVisible: function (v) { visible = v; if (v && (!SMALL || started)) { start(); } } };
 })();
 
+if (Pickle3D && SMALL) { document.getElementById('vitrineGurke').addEventListener('click', function () { Pickle3D.start(); }); }
 if ('IntersectionObserver' in window) {
   var io3d = new IntersectionObserver(function (entries) {
     entries.forEach(function (en) {
@@ -3569,9 +3583,14 @@ if ('IntersectionObserver' in window) {
 var veil = document.getElementById('veil');
 requestAnimationFrame(function () {
   setTimeout(function () {
-    try { Krampus.build(); renderHero(); } catch (err) { console.error('Hero render failed', err); }
+    var go = function () {
+      if (go.done) { return; }
+      go.done = true;
+      try { renderHero(); } catch (err) { console.error('Hero setup failed', err); }
+      veil.classList.add('gone');
+    };
+    if (heroCv.complete) { go(); } else { heroCv.addEventListener('load', go); heroCv.addEventListener('error', go); setTimeout(go, 3000); }
     makeFogTexture();
-    veil.classList.add('gone');
     onScroll();
   }, 30);
 });

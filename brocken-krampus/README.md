@@ -1,8 +1,13 @@
 # Die Zwei vom Brocken
 
-Eine atmosphärische Einzelseite über eine erfundene Harzer Sage. Alles steckt in `index.html`:
-die Kreatur wird zur Laufzeit aus einem einzigen, fest geseedeten Modell auf Canvas gemalt, damit sie
-in jeder Ansicht gleich aussieht. Der Ton (Wind, Glocken, Ketten) wird per Web Audio erzeugt.
+Eine atmosphärische Einzelseite über eine erfundene Harzer Sage.
 
-Lokal öffnen: `index.html` im Browser, oder `python3 -m http.server` in diesem Ordner.
-Die Seite lässt sich unverändert über GitHub Pages oder jeden statischen Host ausliefern.
+- `index.html` ist die Seite. Die gemalten Szenen liegen als fertige Bilder in `img/`,
+  damit die Seite auch auf Handys schnell und sparsam läuft.
+- `tools/studio.html` enthält den Maler, der die Kreatur und alle Szenen auf Canvas zeichnet.
+  `tools/render-images.js` erzeugt daraus `img/*.webp` und `img/meta.json`
+  (Playwright mit Chromium nötig: `node tools/render-images.js`).
+  Nach einer Änderung an `meta.json` muss der `META`-Block in `index.html` angepasst werden.
+- Der 3D-Berg und die 3D-Gurke laden three.js r128 von cdnjs und jsDelivr, auf Handys erst nach Antippen.
+
+Lokal ansehen: `python3 -m http.server` in diesem Ordner, dann http://localhost:8000 öffnen.
