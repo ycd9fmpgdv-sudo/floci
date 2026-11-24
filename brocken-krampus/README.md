@@ -1,4 +1,4 @@
-# Der Brocken-Krampus
+# Die Zwei vom Brocken
 
 Eine atmosphärische Einzelseite über eine erfundene Harzer Sage. Alles steckt in `index.html`:
 die Kreatur wird zur Laufzeit aus einem einzigen, fest geseedeten Modell auf Canvas gemalt, damit sie
