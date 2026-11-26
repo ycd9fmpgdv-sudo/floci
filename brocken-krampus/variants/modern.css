@@ -179,3 +179,5 @@ body::before { background: var(--pg); }
 .chapter > .prose, .warn-text { margin-left: max(0px, calc(50% - 590px)); margin-right: auto; }
 .warning .wrap > .warn-text { margin-left: max(0px, calc(50% - 590px)); }
 .chapter > .intro-note { margin-left: max(0px, calc(50% - 590px)); text-align: left; }
+.advent { color: #e0bd72; }
+footer .xmas { color: #e0bd72; }
